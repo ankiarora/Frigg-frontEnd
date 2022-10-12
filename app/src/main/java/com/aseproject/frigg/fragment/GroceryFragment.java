@@ -8,13 +8,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -47,6 +47,9 @@ public class GroceryFragment extends Fragment implements GroceryService.GroceryS
     private SwipeRefreshLayout groceriesRefreshLayout;
     private static final String PURPOSE = "GROCERY_RESULTS";
     private GroceryAdapter groceryAdapter;
+    private ImageView ivEditItems;
+    private Button btnSaveEditedItems;
+    private ImageView ivAddItems;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -67,9 +70,12 @@ public class GroceryFragment extends Fragment implements GroceryService.GroceryS
         ((NavActivity)context).setTitle(getString(R.string.grocery_title));
 
         // Find Views
+        ivEditItems = view.findViewById(R.id.ivEditItems);
+        ivAddItems = view.findViewById(R.id.ivAddItems);
         groceriesRecyclerView = view.findViewById(R.id.groceriesRecyclerView);
         groceriesRefreshLayout = view.findViewById(R.id.groceriesRefreshLayout);
         mEmptyView = view.findViewById(R.id.groceries_empty_view);
+        btnSaveEditedItems = view.findViewById(R.id.btnSaveEditedItems);
         groceriesTextView = view.findViewById(R.id.groceries_empty_text_view);
 
         // Pull To Refresh
@@ -78,6 +84,22 @@ public class GroceryFragment extends Fragment implements GroceryService.GroceryS
 
         setRecyclerView();
         downloadGroceries(getString(R.string.fetching_data));
+        handleButtonActions();
+    }
+
+    private void handleButtonActions() {
+        ivEditItems.setOnClickListener(view -> {
+            updateUI(AppSessionManager.getInstance().getGroceries(), true);
+            btnSaveEditedItems.setVisibility(View.VISIBLE);
+        });
+
+        ivAddItems.setOnClickListener(view -> {
+
+        });
+
+        btnSaveEditedItems.setOnClickListener(view -> {
+            updateUI(AppSessionManager.getInstance().getGroceries(), false);
+        });
     }
 
     // Swipe Refresh Layout
@@ -110,8 +132,9 @@ public class GroceryFragment extends Fragment implements GroceryService.GroceryS
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context, layoutManager.getOrientation());
         groceriesRecyclerView.addItemDecoration(dividerItemDecoration);
     }
-    private void updateUI(List<FoodItem> groceries) {
-        groceryAdapter = new GroceryAdapter(context, groceries);
+
+    private void updateUI(List<FoodItem> groceries, boolean enableEditMode) {
+        groceryAdapter = new GroceryAdapter(context, groceries, enableEditMode);
         groceriesRecyclerView.setAdapter(groceryAdapter);
 
         groceriesRecyclerView.getRecycledViewPool().clear();
@@ -129,7 +152,7 @@ public class GroceryFragment extends Fragment implements GroceryService.GroceryS
 
     @Override
     public void notifyFetchSuccess(List<FoodItem> labResults) {
-        updateUI(labResults);
+        updateUI(labResults, false);
         ((NavActivity) context).hideActivityIndicator();
     }
 
@@ -156,7 +179,7 @@ public class GroceryFragment extends Fragment implements GroceryService.GroceryS
                 FoodItem[] labResults = new Gson().fromJson(json, FoodItem[].class);
                 AppSessionManager.getInstance().setGroceries(new LinkedList<>(Arrays.asList(labResults)));
                 Log.d(TAG, "Groceries retrieved: " + AppSessionManager.getInstance().getGroceries().size());
-                updateUI(AppSessionManager.getInstance().getGroceries());
+                updateUI(AppSessionManager.getInstance().getGroceries(), false);
             } catch (JsonParseException exception) {
                 Log.e(TAG, "exception:" + exception);
             }
