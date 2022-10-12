@@ -5,17 +5,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher_background" />
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:src="@drawable/fridge_icon" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:layout_weight="1">
             <TextView
                 android:id="@+id/foodItemName"
                 android:layout_width="wrap_content"
@@ -41,6 +44,41 @@
                 android:textSize="16sp"
                 android:text="Buy Date: 10/mm/yy"/>
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llAddSubtract"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/subtract_item"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:padding="2dp"
+                android:src="@drawable/subtract_icon"/>
+
+            <TextView
+                android:id="@+id/food_count_track"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="3"/>
+
+            <ImageView
+                android:id="@+id/add_item"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:padding="2dp"
+                android:src="@drawable/add_icon"/>
+        </LinearLayout>
+
     </LinearLayout>
 
 
