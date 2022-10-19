@@ -25,4 +25,7 @@
     <string name="bottom_nav_item_2">Recommend</string>
     <string name="bottom_nav_item_3">More</string>
 
+    <string name="add_food_name">What food item would you like to add?</string>
+    <string name="add_food_qty">How many would you like to add?</string>
+
 </resources>
