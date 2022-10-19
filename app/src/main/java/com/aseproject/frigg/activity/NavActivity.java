@@ -1,17 +1,12 @@
 package com.aseproject.frigg.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.os.Bundle;
-import android.view.View;
 
 import com.aseproject.frigg.R;
-import com.aseproject.frigg.fragment.FridgeFragment;
-import com.aseproject.frigg.fragment.GroceryFragment;
+import com.aseproject.frigg.fragment.FoodFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 public class NavActivity extends FriggActivity {
 
@@ -28,26 +23,23 @@ public class NavActivity extends FriggActivity {
     }
 
     private void handleBottomNavigation() {
-        FridgeFragment fridgeFragment = new FridgeFragment();
-        GroceryFragment groceryFragment = new GroceryFragment();
 
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (item -> {
                     switch (item.getItemId()) {
                         case R.id.menu_item_1:
-                            getSupportFragmentManager().beginTransaction().replace(R.id.container, groceryFragment).commit();
+                            FoodFragment foodFragment = new FoodFragment(getString(R.string.grocery_title));
+                            getSupportFragmentManager().beginTransaction().replace(R.id.container, foodFragment).commit();
                             break;
                         case R.id.menu_item_2:
-                            break;
                         case R.id.menu_item_3:
                             break;
                         default:
-                            getSupportFragmentManager().beginTransaction().replace(R.id.container, fridgeFragment).commit();
+                            foodFragment = new FoodFragment(getString(R.string.fridge_title));
+                            getSupportFragmentManager().beginTransaction().replace(R.id.container, foodFragment).commit();
                             break;
                     }
                     return true;
                 });
     }
-
-
 }

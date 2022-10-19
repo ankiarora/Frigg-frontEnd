@@ -2,7 +2,8 @@ package com.aseproject.frigg.common;
 
 import android.util.Log;
 
-import com.aseproject.frigg.model.FoodItem;
+import com.aseproject.frigg.model.FridgeItem;
+import com.aseproject.frigg.model.GroceryItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,8 @@ public class AppSessionManager {
 
     private static final String TAG = "AppSessionManager";
     private static volatile AppSessionManager mInstance;
-    private List<FoodItem> groceries = new ArrayList<>();
+    private List<GroceryItem> groceries = new ArrayList<>();
+    private List<FridgeItem> fridgeItems = new ArrayList<>();
 
     //Private constructor
     private AppSessionManager() {
@@ -28,11 +30,19 @@ public class AppSessionManager {
         return mInstance;
     }
 
-    public List<FoodItem> getGroceries() {
+    public List<GroceryItem> getGroceries() {
         return groceries;
     }
 
-    public void setGroceries(List<FoodItem> groceries) {
+    public List<FridgeItem> getFridgeList() {
+        return fridgeItems;
+    }
+
+    public void setFridgeItems(List<FridgeItem> fridgeItems) {
+        this.fridgeItems = fridgeItems;
+    }
+
+    public void setGroceries(List<GroceryItem> groceries) {
         this.groceries = groceries;
     }
 }

@@ -9,7 +9,6 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.aseproject.frigg.interfaces.GetListener;
-import com.aseproject.frigg.service.GroceryService;
 import com.aseproject.frigg.service.VolleyService;
 import com.aseproject.frigg.util.Constants;
 
