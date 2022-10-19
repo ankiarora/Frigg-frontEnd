@@ -120,7 +120,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
             Handler handler = new Handler();
             executor.execute(() -> {
                 try {
-                    String imageURL = "https://frigg-images.s3.amazonaws.com/image1.jpg";
+                    String imageURL = "https://frigg-images.s3.amazonaws.com/"+foodItem.getItemName()+".jpg";
                     InputStream inputStream = new URL(imageURL).openStream();
                     Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 
@@ -180,7 +180,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
             Handler handler = new Handler();
             executor.execute(() -> {
                 try {
-                    String imageURL = "https://frigg-images.s3.amazonaws.com/image1.jpg";
+                    String imageURL = "https://frigg-images.s3.amazonaws.com/"+foodItem.getItemName()+".jpg";
                     InputStream inputStream = new URL(imageURL).openStream();
                     Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 
