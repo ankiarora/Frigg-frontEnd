@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:padding="10dp">
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:src="@drawable/fridge_icon" />
+            android:id="@+id/iv_item_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginEnd="16dp" />
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="1">
             <TextView
                 android:id="@+id/foodItemName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
+                android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:text="Apples"/>
             <TextView
@@ -48,16 +47,17 @@
         <LinearLayout
             android:id="@+id/llAddSubtract"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
             android:visibility="gone">
+
             <ImageView
                 android:id="@+id/subtract_item"
                 android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_height="match_parent"
+                android:cropToPadding="true"
                 android:padding="2dp"
+                android:gravity="center_vertical"
                 android:src="@drawable/subtract_icon"/>
 
             <TextView
@@ -74,12 +74,10 @@
             <ImageView
                 android:id="@+id/add_item"
                 android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
                 android:padding="2dp"
-                android:src="@drawable/add_icon"/>
+                android:src="@drawable/add_icon_round"/>
         </LinearLayout>
 
     </LinearLayout>
-
-
-</LinearLayout>
