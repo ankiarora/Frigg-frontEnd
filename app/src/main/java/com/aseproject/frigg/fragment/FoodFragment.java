@@ -33,12 +33,12 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.aseproject.frigg.R;
+import com.aseproject.frigg.activity.FoodDetailActivity;
 import com.aseproject.frigg.activity.NavActivity;
 import com.aseproject.frigg.adapter.FoodAdapter;
 import com.aseproject.frigg.common.AppSessionManager;
 import com.aseproject.frigg.common.CommonDialogFragment;
 import com.aseproject.frigg.common.FriggRecyclerView;
-import com.aseproject.frigg.model.FridgeItem;
 import com.aseproject.frigg.model.GroceryItem;
 import com.aseproject.frigg.service.FoodService;
 import com.aseproject.frigg.service.SessionFacade;
@@ -69,7 +69,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
     private ImageView btnVoiceToText;
     private SpeechRecognizer speechRecognizer;
     private List<GroceryItem> groceries = new ArrayList<>();
-    private List<FridgeItem> fridgeItems = new ArrayList<>();
+    private List<GroceryItem> fridgeItems = new ArrayList<>();
 
     public FoodFragment(String type) {
         this.type = type;
@@ -267,7 +267,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
 
     // Swipe Refresh Layout
     private void refreshItems() {
-        if(isFridge())
+        if (isFridge())
             AppSessionManager.getInstance().getFridgeList().clear();
         else
             AppSessionManager.getInstance().getGroceries().clear();
@@ -314,7 +314,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         groceriesRecyclerView.addItemDecoration(dividerItemDecoration);
     }
 
-    private <T> void updateUI(List<T> foodItems, boolean enableEditMode) {
+    private void updateUI(List<GroceryItem> foodItems, boolean enableEditMode) {
         foodAdapter = new FoodAdapter(context, foodItems, enableEditMode, this);
         groceriesRecyclerView.setAdapter(foodAdapter);
 
@@ -331,8 +331,8 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
     }
 
     @Override
-    public <T> void notifyFetchSuccess(List<T> foodItems, String purpose) {
-        updateUI((List<T>) foodItems, false);
+    public void notifyFetchSuccess(List<GroceryItem> foodItems, String purpose) {
+        updateUI(foodItems, false);
         ((NavActivity) context).hideActivityIndicator();
     }
 
@@ -344,7 +344,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
     @Override
     public void notifyPostSuccess(String response, String purpose) {
         ((NavActivity) context).hideActivityIndicator();
-        if(purpose.equals(SET_FRIDGE_PURPOSE)) {
+        if (purpose.equals(SET_FRIDGE_PURPOSE)) {
             updateUI(AppSessionManager.getInstance().getFridgeList(), false);
         } else {
             updateUI(AppSessionManager.getInstance().getGroceries(), false);
@@ -366,14 +366,25 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
 
     @Override
     public <T> void setGroceryList(List<T> foodItems) {
-        if(!isFridge())
+        if (!isFridge())
             this.groceries = (List<GroceryItem>) foodItems;
         else
-            this.fridgeItems = (List<FridgeItem>) foodItems;
-        if(foodItems.isEmpty()) {
+            this.fridgeItems = (List<GroceryItem>) foodItems;
+        if (foodItems.isEmpty()) {
             setItems();
         }
 
+    }
+
+    @Override
+    public void openDetailScreen(Object foodItem) {
+        Intent intent = new Intent(context, FoodDetailActivity.class);
+        if (foodItem instanceof GroceryItem)
+            intent.putExtra("FOOD_ITEM", (GroceryItem) foodItem);
+        else
+            intent.putExtra("FOOD_ITEM", (GroceryItem) foodItem);
+
+        context.startActivity(intent);
     }
 
     @Override

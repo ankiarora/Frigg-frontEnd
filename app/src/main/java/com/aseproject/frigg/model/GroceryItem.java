@@ -1,6 +1,8 @@
 package com.aseproject.frigg.model;
 
-public class GroceryItem {
+import java.io.Serializable;
+
+public class GroceryItem<T> implements Serializable {
     private Integer grocery_item_id;
     private String grocery_item_name;
     private Integer quantity;

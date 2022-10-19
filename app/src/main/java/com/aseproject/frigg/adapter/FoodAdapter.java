@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aseproject.frigg.R;
 import com.aseproject.frigg.activity.NavActivity;
 import com.aseproject.frigg.common.CommonDialogFragment;
-import com.aseproject.frigg.model.FridgeItem;
 import com.aseproject.frigg.model.GroceryItem;
 
 import java.io.InputStream;
@@ -33,9 +32,9 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
     private final Context context;
     private final boolean enableEditMode;
     private final GroceryHolderListener listener;
-    private List foodList = new ArrayList<>();
+    private List<GroceryItem> foodList = new ArrayList<>();
 
-    public <T> FoodAdapter(Context context, List<T> foodItems, boolean enableEditMode, GroceryHolderListener listener) {
+    public FoodAdapter(Context context, List<GroceryItem> foodItems, boolean enableEditMode, GroceryHolderListener listener) {
         Log.d(TAG, "ADAPTER: " + foodItems);
         this.listener = listener;
 
@@ -54,14 +53,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
 
     @Override
     public void onBindViewHolder(GroceryHolder holder, int position) {
-        if (foodList.get(position) instanceof GroceryItem) {
-            GroceryItem foodItem = (GroceryItem) foodList.get(position);
-            holder.bind(foodItem);
-        } else {
-            FridgeItem foodItem = (FridgeItem) foodList.get(position);
-            holder.bind(foodItem);
-        }
-
+        holder.bind(foodList.get(position));
     }
 
     @Override
@@ -72,11 +64,12 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
 
     public interface GroceryHolderListener {
         <T> void setGroceryList(List<T> foodItems);
+        void openDetailScreen(Object foodItem);
     }
-
 
     public class GroceryHolder extends RecyclerView.ViewHolder implements CommonDialogFragment.DialogInterface {
 
+        private LinearLayout llFoodItem;
         private ImageView ivItemImage;
         private LinearLayout llAddSubtract;
         private TextView tvFoodCountCrack;
@@ -89,6 +82,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
         private GroceryHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.food_item, parent, false));
 
+            llFoodItem = itemView.findViewById(R.id.ll_food_item);
             tvItemName = itemView.findViewById(R.id.foodItemName);
             ivItemImage = itemView.findViewById(R.id.iv_item_image);
             tvItemAmount = itemView.findViewById(R.id.foodAmt);
@@ -96,9 +90,13 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
             ivAddItem = itemView.findViewById(R.id.add_item);
             llAddSubtract = itemView.findViewById(R.id.llAddSubtract);
             tvFoodCountCrack = itemView.findViewById(R.id.food_count_track);
+
+            llFoodItem.setOnClickListener(view -> {
+                listener.openDetailScreen(foodItem);
+            });
         }
 
-        public void bind(FridgeItem foodItem) {
+        public void bind(GroceryItem foodItem) {
             if (enableEditMode) {
                 llAddSubtract.setVisibility(View.VISIBLE);
             }
@@ -120,7 +118,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
             Handler handler = new Handler();
             executor.execute(() -> {
                 try {
-                    String imageURL = "https://frigg-images.s3.amazonaws.com/"+foodItem.getItemName()+".jpg";
+                    String imageURL = context.getString(R.string.image_url, foodItem.getItemName());
                     InputStream inputStream = new URL(imageURL).openStream();
                     Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 
@@ -131,7 +129,6 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
                     e.printStackTrace();
                 }
             });
-
 
             ivSubtractItem.setOnClickListener(view -> {
                 int qty = foodItem.getQuantity();
@@ -155,71 +152,70 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
             });
         }
 
-        public void bind(GroceryItem foodItem) {
-            if (enableEditMode) {
-                llAddSubtract.setVisibility(View.VISIBLE);
-            }
-            this.foodItem = foodItem;
-
-            if (foodItem != null && foodItem instanceof GroceryItem) {
-                tvItemName.setText(foodItem.getItemName());
-                tvItemAmount.setText(Integer.toString(foodItem.getQuantity()));
-                tvFoodCountCrack.setText(Integer.toString(foodItem.getQuantity()));
-
-                ivAddItem.setOnClickListener(view -> {
-                    int qty = foodItem.getQuantity();
-                    qty++;
-                    foodItem.setQuantity(qty);
-                    tvItemAmount.setText(Integer.toString(foodItem.getQuantity()));
-                    tvFoodCountCrack.setText(Integer.toString(foodItem.getQuantity()));
-                    listener.setGroceryList(foodList);
-                });
-            }
-
-            ExecutorService executor = Executors.newSingleThreadExecutor();
-            Handler handler = new Handler();
-            executor.execute(() -> {
-                try {
-                    String imageURL = "https://frigg-images.s3.amazonaws.com/"+foodItem.getItemName()+".jpg";
-                    InputStream inputStream = new URL(imageURL).openStream();
-                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-
-
-                    // Only for making changes in UI
-                    handler.post(() -> ivItemImage.setImageBitmap(bitmap));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-
-
-            ivSubtractItem.setOnClickListener(view -> {
-                int qty = foodItem.getQuantity();
-                qty--;
-                if (qty < 1) {
-                    //show alert and remove the item from list
-                    CommonDialogFragment dialogFragment =
-                            new CommonDialogFragment(
-                                    this,
-                                    context.getResources().getString(R.string.grocery_delete_item_title),
-                                    context.getResources().getString(R.string.grocery_delete_item_message),
-                                    context.getResources().getString(R.string.yes),
-                                    context.getResources().getString(R.string.no));
-                    dialogFragment.show(((NavActivity) context).getSupportFragmentManager(), "");
-                } else {
-                    foodItem.setQuantity(qty);
-                    tvItemAmount.setText(Integer.toString(foodItem.getQuantity()));
-                    tvFoodCountCrack.setText(Integer.toString(foodItem.getQuantity()));
-                }
-                listener.setGroceryList(foodList);
-            });
-        }
+//        public void bind(GroceryItem foodItem) {
+//            if (enableEditMode) {
+//                llAddSubtract.setVisibility(View.VISIBLE);
+//            }
+//            this.foodItem = foodItem;
+//
+//            if (foodItem != null && foodItem instanceof GroceryItem) {
+//                tvItemName.setText(foodItem.getItemName());
+//                tvItemAmount.setText(Integer.toString(foodItem.getQuantity()));
+//                tvFoodCountCrack.setText(Integer.toString(foodItem.getQuantity()));
+//
+//                ivAddItem.setOnClickListener(view -> {
+//                    int qty = foodItem.getQuantity();
+//                    qty++;
+//                    foodItem.setQuantity(qty);
+//                    tvItemAmount.setText(Integer.toString(foodItem.getQuantity()));
+//                    tvFoodCountCrack.setText(Integer.toString(foodItem.getQuantity()));
+//                    listener.setGroceryList(foodList);
+//                });
+//            }
+//
+//            ExecutorService executor = Executors.newSingleThreadExecutor();
+//            Handler handler = new Handler();
+//            executor.execute(() -> {
+//                try {
+//                    String imageURL = context.getString(R.string.image_url, foodItem.getItemName());
+//                    InputStream inputStream = new URL(imageURL).openStream();
+//                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+//
+//
+//                    // Only for making changes in UI
+//                    handler.post(() -> ivItemImage.setImageBitmap(bitmap));
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            });
+//
+//            ivSubtractItem.setOnClickListener(view -> {
+//                int qty = foodItem.getQuantity();
+//                qty--;
+//                if (qty < 1) {
+//                    //show alert and remove the item from list
+//                    CommonDialogFragment dialogFragment =
+//                            new CommonDialogFragment(
+//                                    this,
+//                                    context.getResources().getString(R.string.grocery_delete_item_title),
+//                                    context.getResources().getString(R.string.grocery_delete_item_message),
+//                                    context.getResources().getString(R.string.yes),
+//                                    context.getResources().getString(R.string.no));
+//                    dialogFragment.show(((NavActivity) context).getSupportFragmentManager(), "");
+//                } else {
+//                    foodItem.setQuantity(qty);
+//                    tvItemAmount.setText(Integer.toString(foodItem.getQuantity()));
+//                    tvFoodCountCrack.setText(Integer.toString(foodItem.getQuantity()));
+//                }
+//                listener.setGroceryList(foodList);
+//            });
+//        }
 
         @Override
         public void onSelectedPosBtn() {
             //remove item
             foodList.remove(foodItem);
-            if(foodList.isEmpty()) {
+            if (foodList.isEmpty()) {
                 listener.setGroceryList(foodList);
             }
             notifyDataSetChanged();

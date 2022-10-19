@@ -9,7 +9,6 @@ import com.aseproject.frigg.common.AppSessionManager;
 import com.aseproject.frigg.errorhandling.VolleyErrorHandler;
 import com.aseproject.frigg.interfaces.GetListener;
 import com.aseproject.frigg.interfaces.PostListener;
-import com.aseproject.frigg.model.FridgeItem;
 import com.aseproject.frigg.model.GroceryItem;
 import com.aseproject.frigg.network.GetClient;
 import com.aseproject.frigg.network.PostClient;
@@ -62,7 +61,7 @@ public class FoodService implements GetListener, PostListener {
         postClient.sendData(url, new Gson().toJson(groceryItems), null, purpose);
     }
 
-    public void setFridgeItem(Context context, String purpose, FoodServicePostListener listener, List<FridgeItem> fridgeItems) {
+    public void setFridgeItem(Context context, String purpose, FoodServicePostListener listener, List<GroceryItem> fridgeItems) {
         this.postListener = listener;
         final String url = Constants.BASE_URL + "FridgeList/UpdateFridgeList";
         this.context = context;
@@ -73,17 +72,10 @@ public class FoodService implements GetListener, PostListener {
     @Override
     public void notifyFetchSuccess(String parseSuccess, String purpose) {
         try {
-            if (purpose.equals(GET_GROCERIES_PURPOSE)) {
-                GroceryItem[] food = new Gson().fromJson(parseSuccess, GroceryItem[].class);
-                AppSessionManager.getInstance().setGroceries(new LinkedList<>(Arrays.asList(food)));
-                Log.d(TAG, "Grocery List retrieved: " + AppSessionManager.getInstance().getGroceries().size());
-                getListener.notifyFetchSuccess(new LinkedList<>(Arrays.asList(food)), purpose);
-            } else {
-                FridgeItem[] food = new Gson().fromJson(parseSuccess, FridgeItem[].class);
-                AppSessionManager.getInstance().setFridgeItems(new LinkedList<>(Arrays.asList(food)));
-                Log.d(TAG, "Grocery List retrieved: " + AppSessionManager.getInstance().getGroceries().size());
-                getListener.notifyFetchSuccess(new LinkedList<>(Arrays.asList(food)), purpose);
-            }
+            GroceryItem[] food = new Gson().fromJson(parseSuccess, GroceryItem[].class);
+            AppSessionManager.getInstance().setGroceries(new LinkedList<>(Arrays.asList(food)));
+            Log.d(TAG, "Grocery List retrieved: " + AppSessionManager.getInstance().getGroceries().size());
+            getListener.notifyFetchSuccess(new LinkedList<>(Arrays.asList(food)), purpose);
         } catch (JsonParseException exception) {
             Log.e(TAG, "exception:" + exception);
             getListener.notifyFetchError(context.getString(R.string.error_400), purpose);
@@ -107,7 +99,7 @@ public class FoodService implements GetListener, PostListener {
     }
 
     public interface FoodServiceGetListener {
-        <T> void notifyFetchSuccess(List<T> labResults, String purpose);
+        void notifyFetchSuccess(List<GroceryItem> labResults, String purpose);
 
         void notifyFetchError(String error, String purpose);
     }
