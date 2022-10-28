@@ -19,16 +19,14 @@ import android.widget.TextView;
 
 import com.aseproject.frigg.R;
 import com.aseproject.frigg.activity.FoodDetailActivity;
-import com.aseproject.frigg.activity.NavActivity;
-import com.aseproject.frigg.common.CommonDialogFragment;
-import com.aseproject.frigg.model.GroceryItem;
+import com.aseproject.frigg.model.FoodItem;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class FoodDetailFragment extends Fragment{
+public class FoodDetailFragment extends Fragment {
 
     private String type = "";
     private Context context;
@@ -38,6 +36,9 @@ public class FoodDetailFragment extends Fragment{
     private Object foodItem;
     private TextView tvItemName;
     private TextView tvItemAmount;
+    private LinearLayout llExpiryDate;
+    private TextView tvExpiryDate;
+    private TextView tvPurchaseDate;
 
     public FoodDetailFragment(String type) {
         this.type = type;
@@ -64,17 +65,25 @@ public class FoodDetailFragment extends Fragment{
         tvItemName = view.findViewById(R.id.foodItemName);
         ivItemImage = view.findViewById(R.id.iv_item_image);
         tvItemAmount = view.findViewById(R.id.foodAmt);
+        llExpiryDate = view.findViewById(R.id.llExpiryDate);
+        tvExpiryDate = view.findViewById(R.id.tvExpiryDate);
+        tvPurchaseDate = view.findViewById(R.id.tvPurchaseDate);
 
         foodItem = getActivity().getIntent().getSerializableExtra("FOOD_ITEM");
 
-        if(foodItem instanceof GroceryItem)
-            setDetails((GroceryItem) foodItem);
+        if (foodItem instanceof FoodItem)
+            setDetails((FoodItem) foodItem);
     }
 
-    private void setDetails(GroceryItem foodItem) {
+    private void setDetails(FoodItem foodItem) {
         tvItemName.setText(foodItem.getItemName());
-        tvItemAmount.setText(Integer.toString(foodItem.getQuantity()));
-
+        tvItemAmount.setText("Amount: " + foodItem.getQuantity());
+        if (type.equals(context.getString(R.string.grocery_title))) {
+            llExpiryDate.setVisibility(View.GONE);
+        } else {
+            tvExpiryDate.setText("Expiry date: "+ foodItem.getExpected_expiry_date());
+            tvPurchaseDate.setText("Purchase date: "+ foodItem.getPurchase_date());
+        }
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler();
         executor.execute(() -> {

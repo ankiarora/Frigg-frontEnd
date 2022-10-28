@@ -2,7 +2,7 @@ package com.aseproject.frigg.service;
 
 import android.content.Context;
 
-import com.aseproject.frigg.model.GroceryItem;
+import com.aseproject.frigg.model.FoodItem;
 import com.aseproject.frigg.util.Constants;
 
 import java.util.List;
@@ -18,11 +18,15 @@ public class SessionFacade {
         FoodService.getInstance().getFridgeItems(url, context, purpose, listener);
     }
 
-    public void setGroceries(Context context, String purpose, FoodService.FoodServicePostListener listener, List<GroceryItem> groceries) {
+    public void setGroceries(Context context, String purpose, FoodService.FoodServicePostListener listener, List<FoodItem> groceries) {
         FoodService.getInstance().setGroceries(context, purpose, listener, groceries);
     }
 
-    public void setFridgeList(Context context, String purpose, FoodService.FoodServicePostListener listener, List<GroceryItem> fridgeItems) {
+    public void setFridgeList(Context context, String purpose, FoodService.FoodServicePostListener listener, List<FoodItem> fridgeItems) {
         FoodService.getInstance().setFridgeItem(context, purpose, listener, fridgeItems);
+    }
+
+    public void addItem(Context context, FoodItem foodItem, String url, String purpose, FoodService.FoodServicePostListener listener) {
+        FoodService.getInstance().addGroceryItem(context, purpose, url, listener, foodItem);
     }
 }

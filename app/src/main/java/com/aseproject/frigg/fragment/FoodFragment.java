@@ -2,29 +2,21 @@ package com.aseproject.frigg.fragment;
 
 import static com.aseproject.frigg.activity.VoiceRecognitionActivity.RecordAudioRequestCode;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.speech.RecognitionListener;
-import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -35,17 +27,17 @@ import android.widget.Toast;
 import com.aseproject.frigg.R;
 import com.aseproject.frigg.activity.FoodDetailActivity;
 import com.aseproject.frigg.activity.NavActivity;
+import com.aseproject.frigg.activity.NewFoodItemActivity;
 import com.aseproject.frigg.adapter.FoodAdapter;
 import com.aseproject.frigg.common.AppSessionManager;
 import com.aseproject.frigg.common.CommonDialogFragment;
 import com.aseproject.frigg.common.FriggRecyclerView;
-import com.aseproject.frigg.model.GroceryItem;
+import com.aseproject.frigg.model.FoodItem;
 import com.aseproject.frigg.service.FoodService;
 import com.aseproject.frigg.service.SessionFacade;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class FoodFragment extends Fragment implements FoodService.FoodServiceGetListener, FoodService.FoodServicePostListener, FoodAdapter.GroceryHolderListener, CommonDialogFragment.DialogInterface {
 
@@ -68,8 +60,8 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
     private EditText etItemName;
     private ImageView btnVoiceToText;
     private SpeechRecognizer speechRecognizer;
-    private List<GroceryItem> groceries = new ArrayList<>();
-    private List<GroceryItem> fridgeItems = new ArrayList<>();
+    private List<FoodItem> groceries = new ArrayList<>();
+    private List<FoodItem> fridgeItems = new ArrayList<>();
 
     public FoodFragment(String type) {
         this.type = type;
@@ -111,7 +103,6 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         groceriesRefreshLayout.setOnRefreshListener(this::refreshItems);
 
         setRecyclerView();
-        downloadItems(context.getString(R.string.fetching_data));
         handleButtonActions();
     }
 
@@ -126,6 +117,10 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         });
 
         ivAddItems.setOnClickListener(view -> {
+            Intent intent = new Intent(context, NewFoodItemActivity.class);
+            intent.putExtra("LIST_TYPE", type);
+            startActivity(intent);
+
 //            if (isFridge()) {
 //                AppSessionManager.getInstance().setFridgeItems(fridgeItems);
 //                ((NavActivity) context).showActivityIndicator(context.getString(R.string.saving_data));
@@ -144,33 +139,15 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         btnSaveEditedItems.setOnClickListener(view -> {
             setItems();
         });
-
-        btnVoiceToText.setOnClickListener(view -> {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                requestPermission();
-            } else {
-                setMicToText();
-            }
-        });
     }
 
     private void setItems() {
         if (isFridge()) {
-            AppSessionManager.getInstance().setFridgeItems(fridgeItems);
             ((NavActivity) context).showActivityIndicator(context.getString(R.string.saving_data));
             sessionFacade.setFridgeList(context, SET_FRIDGE_PURPOSE, this, fridgeItems);
         } else {
-            AppSessionManager.getInstance().setGroceries(groceries);
             ((NavActivity) context).showActivityIndicator(context.getString(R.string.saving_data));
             sessionFacade.setGroceries(context, SET_GROCERIES_PURPOSE, this, groceries);
-        }
-    }
-
-    private void requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            ActivityCompat.requestPermissions((NavActivity) context, new String[]{Manifest.permission.RECORD_AUDIO}, RecordAudioRequestCode);
-        } else {
-            Toast.makeText(context, "Your android version does not support recording. Please add an item manually.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -190,80 +167,6 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         super.onDestroy();
         speechRecognizer.destroy();
     }
-
-    private void setMicToText() {
-        final Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-
-        speechRecognizer.setRecognitionListener(new RecognitionListener() {
-            @Override
-            public void onReadyForSpeech(Bundle bundle) {
-
-            }
-
-            @Override
-            public void onBeginningOfSpeech() {
-                etItemName.setText("");
-                etItemName.setHint("Listening...");
-            }
-
-            @Override
-            public void onRmsChanged(float v) {
-
-            }
-
-            @Override
-            public void onBufferReceived(byte[] bytes) {
-
-            }
-
-            @Override
-            public void onEndOfSpeech() {
-
-            }
-
-            @Override
-            public void onError(int i) {
-                btnVoiceToText.setImageResource(R.drawable.mic_off_icon);
-                etItemName.setText("");
-                Toast.makeText(context, "Please hold the mic and then speak clearly!", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onResults(Bundle bundle) {
-                btnVoiceToText.setImageResource(R.drawable.mic_off_icon);
-                ArrayList<String> data = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-                etItemName.setText(data.get(0));
-            }
-
-            @Override
-            public void onPartialResults(Bundle bundle) {
-
-            }
-
-            @Override
-            public void onEvent(int i, Bundle bundle) {
-
-            }
-        });
-
-        btnVoiceToText.setOnTouchListener((view, motionEvent) -> {
-            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                MediaPlayer song = MediaPlayer.create(context, R.raw.recording_end);
-                song.start();
-                speechRecognizer.stopListening();
-            }
-            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                MediaPlayer song = MediaPlayer.create(context, R.raw.recording_start);
-                song.start();
-                btnVoiceToText.setImageResource(R.drawable.mic_on_icon);
-                speechRecognizer.startListening(speechRecognizerIntent);
-            }
-            return false;
-        });
-    }
-
 
     // Swipe Refresh Layout
     private void refreshItems() {
@@ -314,8 +217,8 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         groceriesRecyclerView.addItemDecoration(dividerItemDecoration);
     }
 
-    private void updateUI(List<GroceryItem> foodItems, boolean enableEditMode) {
-        foodAdapter = new FoodAdapter(context, foodItems, enableEditMode, this);
+    private void updateUI(List<FoodItem> foodItems, boolean enableEditMode) {
+        foodAdapter = new FoodAdapter(context, type, foodItems, enableEditMode, this);
         groceriesRecyclerView.setAdapter(foodAdapter);
 
         groceriesRecyclerView.getRecycledViewPool().clear();
@@ -331,7 +234,13 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
     }
 
     @Override
-    public void notifyFetchSuccess(List<GroceryItem> foodItems, String purpose) {
+    public void onResume() {
+        super.onResume();
+        downloadItems(context.getString(R.string.fetching_data));
+    }
+
+    @Override
+    public void notifyFetchSuccess(List<FoodItem> foodItems, String purpose) {
         updateUI(foodItems, false);
         ((NavActivity) context).hideActivityIndicator();
     }
@@ -367,9 +276,9 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
     @Override
     public <T> void setGroceryList(List<T> foodItems) {
         if (!isFridge())
-            this.groceries = (List<GroceryItem>) foodItems;
+            this.groceries = (List<FoodItem>) foodItems;
         else
-            this.fridgeItems = (List<GroceryItem>) foodItems;
+            this.fridgeItems = (List<FoodItem>) foodItems;
         if (foodItems.isEmpty()) {
             setItems();
         }
@@ -379,10 +288,8 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
     @Override
     public void openDetailScreen(Object foodItem) {
         Intent intent = new Intent(context, FoodDetailActivity.class);
-        if (foodItem instanceof GroceryItem)
-            intent.putExtra("FOOD_ITEM", (GroceryItem) foodItem);
-        else
-            intent.putExtra("FOOD_ITEM", (GroceryItem) foodItem);
+        intent.putExtra("FOOD_ITEM", (FoodItem) foodItem);
+        intent.putExtra("TYPE", type);
 
         context.startActivity(intent);
     }
