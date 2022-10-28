@@ -8,10 +8,15 @@
     <string name="error_400">An unexpected error has occurred.</string>
     <string name="error_volley_no_internet">You must have an internet connection to use this app.</string>
 
-    <string name="bottom_nav_item_0">Fridge</string>
+    <string name="bottom_nav_item_0">Home</string>
+    <string name="bottom_nav_item_1">Fridge</string>
+    <string name="bottom_nav_item_2">Grocery</string>
+    <string name="bottom_nav_item_3">Recommend</string>
+    <string name="bottom_nav_item_4">More</string>
+
+
     <string name="fridge_title">Fridge Items</string>
 
-    <string name="bottom_nav_item_1">Grocery</string>
     <string name="grocery_title">Grocery Items</string>
     <string name="grocery_delete_item_title">Delete Item</string>
     <string name="grocery_delete_item_message">Do you want to remove this item from your list?</string>
@@ -23,9 +28,23 @@
 
     <string name="error_title">Error!</string>
     <string name="save_items_error">Unable to save items</string>
+    <string name="add_items_error">Unable to add an item</string>
     <string name="ok">Ok</string>
 
-    <string name="bottom_nav_item_2">Recommend</string>
-    <string name="bottom_nav_item_3">More</string>
 
+    <string name="add_food_name">What food item would you like to add?</string>
+    <string name="add_food_qty">How many would you like to add?</string>
+    <string name="add_food_to_list">In which list you want to add an item?</string>
+    <string name="add_food_purchase">When did you purchase your item?</string>
+    <string name="add_food_expiry">When is your item going to expire?</string>
+    <string name="title_activity_new_food_item">NewFoodItemActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="add_item_format">Add <u>5</u> <u>Apples</u></string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

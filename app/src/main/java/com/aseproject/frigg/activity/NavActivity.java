@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.aseproject.frigg.R;
 import com.aseproject.frigg.fragment.FoodFragment;
+import com.aseproject.frigg.fragment.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -28,15 +29,18 @@ public class NavActivity extends FriggActivity {
                 (item -> {
                     switch (item.getItemId()) {
                         case R.id.menu_item_1:
-                            FoodFragment foodFragment = new FoodFragment(getString(R.string.grocery_title));
+                            FoodFragment foodFragment = new FoodFragment(getString(R.string.fridge_title));
                             getSupportFragmentManager().beginTransaction().replace(R.id.container, foodFragment).commit();
                             break;
                         case R.id.menu_item_2:
+                            foodFragment = new FoodFragment(getString(R.string.grocery_title));
+                            getSupportFragmentManager().beginTransaction().replace(R.id.container, foodFragment).commit();
+                            break;
                         case R.id.menu_item_3:
                             break;
                         default:
-                            foodFragment = new FoodFragment(getString(R.string.fridge_title));
-                            getSupportFragmentManager().beginTransaction().replace(R.id.container, foodFragment).commit();
+                            HomeFragment fragment = new HomeFragment();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                             break;
                     }
                     return true;

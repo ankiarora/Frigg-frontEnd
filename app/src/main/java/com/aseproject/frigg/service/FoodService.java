@@ -9,7 +9,7 @@ import com.aseproject.frigg.common.AppSessionManager;
 import com.aseproject.frigg.errorhandling.VolleyErrorHandler;
 import com.aseproject.frigg.interfaces.GetListener;
 import com.aseproject.frigg.interfaces.PostListener;
-import com.aseproject.frigg.model.GroceryItem;
+import com.aseproject.frigg.model.FoodItem;
 import com.aseproject.frigg.network.GetClient;
 import com.aseproject.frigg.network.PostClient;
 import com.aseproject.frigg.util.Constants;
@@ -27,8 +27,10 @@ public class FoodService implements GetListener, PostListener {
     private Context context;
 
     private static final String GET_GROCERIES_PURPOSE = "GET_GROCERIES_PURPOSE";
+    private static final String GET_FRIDGE_PURPOSE = "GET_FRIDGE_PURPOSE";
     private static final String SET_GROCERIES_PURPOSE = "SET_GROCERIES_PURPOSE";
     private static final String SET_FRIDGE_PURPOSE = "SET_FRIDGE_PURPOSE";
+    private static final String ADD_FOOD_ITEM = "ADD_FOOD_ITEM";
 
     private static FoodService groceryService;
 
@@ -53,7 +55,7 @@ public class FoodService implements GetListener, PostListener {
         getClient.fetch(url, null, purpose);
     }
 
-    public void setGroceries(Context context, String purpose, FoodServicePostListener listener, List<GroceryItem> groceryItems) {
+    public void setGroceries(Context context, String purpose, FoodServicePostListener listener, List<FoodItem> groceryItems) {
         this.postListener = listener;
         final String url = Constants.BASE_URL + "GroceryList/UpdateGroceryList";
         this.context = context;
@@ -61,7 +63,7 @@ public class FoodService implements GetListener, PostListener {
         postClient.sendData(url, new Gson().toJson(groceryItems), null, purpose);
     }
 
-    public void setFridgeItem(Context context, String purpose, FoodServicePostListener listener, List<GroceryItem> fridgeItems) {
+    public void setFridgeItem(Context context, String purpose, FoodServicePostListener listener, List<FoodItem> fridgeItems) {
         this.postListener = listener;
         final String url = Constants.BASE_URL + "FridgeList/UpdateFridgeList";
         this.context = context;
@@ -69,11 +71,21 @@ public class FoodService implements GetListener, PostListener {
         postClient.sendData(url, new Gson().toJson(fridgeItems), null, purpose);
     }
 
+    public void addGroceryItem(Context context, String purpose, String url, FoodServicePostListener listener, FoodItem foodItem) {
+        this.context = context;
+        this.postListener = listener;
+        PostClient postClient = new PostClient(this, context);
+        postClient.sendData(url, new Gson().toJson(foodItem), null, purpose);
+    }
+
     @Override
     public void notifyFetchSuccess(String parseSuccess, String purpose) {
         try {
-            GroceryItem[] food = new Gson().fromJson(parseSuccess, GroceryItem[].class);
-            AppSessionManager.getInstance().setGroceries(new LinkedList<>(Arrays.asList(food)));
+            FoodItem[] food = new Gson().fromJson(parseSuccess, FoodItem[].class);
+            if (purpose.equals(GET_GROCERIES_PURPOSE))
+                AppSessionManager.getInstance().setGroceries(new LinkedList<>(Arrays.asList(food)));
+            else
+                AppSessionManager.getInstance().setFridgeItems(new LinkedList<>(Arrays.asList(food)));
             Log.d(TAG, "Grocery List retrieved: " + AppSessionManager.getInstance().getGroceries().size());
             getListener.notifyFetchSuccess(new LinkedList<>(Arrays.asList(food)), purpose);
         } catch (JsonParseException exception) {
@@ -99,7 +111,7 @@ public class FoodService implements GetListener, PostListener {
     }
 
     public interface FoodServiceGetListener {
-        void notifyFetchSuccess(List<GroceryItem> labResults, String purpose);
+        void notifyFetchSuccess(List<FoodItem> labResults, String purpose);
 
         void notifyFetchError(String error, String purpose);
     }
