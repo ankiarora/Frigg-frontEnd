@@ -6,12 +6,21 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class FoodItem<T> implements Serializable {
+public class FoodItem implements Serializable {
     private Integer food_item_id;
-    private String food_item_name;
-    private Integer quantity;
-    private String expected_expiry_date;
-    private String purchase_date;
+    private String food_item_name = "";
+    private Integer quantity = 1;
+    private String expected_expiry_date = "";
+    private String purchase_date = "";
+    private boolean isChecked;
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
 
     public Integer getFood_item_id() {
         return food_item_id;

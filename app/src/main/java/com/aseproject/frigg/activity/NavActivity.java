@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.aseproject.frigg.R;
 import com.aseproject.frigg.fragment.FoodFragment;
 import com.aseproject.frigg.fragment.HomeFragment;
+import com.aseproject.frigg.fragment.RecommendFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -37,6 +38,8 @@ public class NavActivity extends FriggActivity {
                             getSupportFragmentManager().beginTransaction().replace(R.id.container, foodFragment).commit();
                             break;
                         case R.id.menu_item_3:
+                            RecommendFragment recommendFragment = new RecommendFragment();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.container, recommendFragment).commit();
                             break;
                         default:
                             HomeFragment fragment = new HomeFragment();
