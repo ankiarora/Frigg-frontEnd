@@ -1,5 +1,6 @@
 package com.aseproject.frigg.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aseproject.frigg.R;
+import com.aseproject.frigg.activity.DishRecipeActivity;
 import com.aseproject.frigg.activity.NavActivity;
 import com.aseproject.frigg.common.CommonDialogFragment;
 import com.aseproject.frigg.model.FoodItem;
@@ -29,13 +33,13 @@ import java.util.concurrent.Executors;
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder> {
 
     private static final String TAG = FoodAdapter.class.getSimpleName();
-    private final Context context;
+    private Activity context;
     private final boolean enableEditMode;
     private final GroceryHolderListener listener;
     private final String type;
     private List<FoodItem> foodList = new ArrayList<>();
 
-    public FoodAdapter(Context context, String type, List<FoodItem> foodItems, boolean enableEditMode, GroceryHolderListener listener) {
+    public FoodAdapter(Activity context, String type, List<FoodItem> foodItems, boolean enableEditMode, GroceryHolderListener listener) {
         Log.d(TAG, "ADAPTER: " + foodItems);
         this.listener = listener;
         this.type = type;
@@ -65,13 +69,15 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
     }
 
     public interface GroceryHolderListener {
-        <T> void setGroceryList(List<T> foodItems);
+        void setGroceryList(List<FoodItem> foodItems);
 
         void openDetailScreen(Object foodItem);
     }
 
     public class GroceryHolder extends RecyclerView.ViewHolder implements CommonDialogFragment.DialogInterface {
 
+        private TextView tvAlreadyInFridge;
+        private CheckBox cbItemCheck;
         private TextView tvExpiryDate;
         private LinearLayout llExpiryDate;
         private LinearLayout llFoodItem;
@@ -99,6 +105,8 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
             llExpiryDate = itemView.findViewById(R.id.llExpiryDate);
             tvExpiryDate = itemView.findViewById(R.id.tvExpiryDate);
             tvPurchaseDate = itemView.findViewById(R.id.tvPurchaseDate);
+            cbItemCheck = itemView.findViewById(R.id.cbItemCheck);
+            tvAlreadyInFridge = itemView.findViewById(R.id.tvAlreadyInFridge);
 
             llFoodItem.setOnClickListener(view -> {
                 listener.openDetailScreen(foodItem);
@@ -106,14 +114,39 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
         }
 
         public void bind(FoodItem foodItem) {
-            if (enableEditMode) {
-                llAddSubtract.setVisibility(View.VISIBLE);
+
+            if (type.equals(context.getString(R.string.recommend_me))) {
+                cbItemCheck.setVisibility(View.VISIBLE);
+                if (foodItem.isChecked()) {
+                    cbItemCheck.setChecked(true);
+                    llAddSubtract.setVisibility(View.VISIBLE);
+                    tvAlreadyInFridge.setVisibility(View.GONE);
+                } else {
+                    tvAlreadyInFridge.setVisibility(View.VISIBLE);
+                    cbItemCheck.setChecked(false);
+                    llAddSubtract.setVisibility(View.GONE);
+                }
+            } else {
+                ivItemImage.setVisibility(View.VISIBLE);
+                if (enableEditMode) {
+                    llAddSubtract.setVisibility(View.VISIBLE);
+                }
             }
-            if (type.equals(context.getString(R.string.grocery_title))) {
+
+            cbItemCheck.setOnCheckedChangeListener((compoundButton, b) -> {
+                if (b) {
+                    llAddSubtract.setVisibility(View.VISIBLE);
+                } else {
+                    llAddSubtract.setVisibility(View.GONE);
+                }
+                listener.setGroceryList(foodList);
+            });
+
+            if (!type.equals(context.getString(R.string.fridge_title))) {
                 llExpiryDate.setVisibility(View.GONE);
             } else {
-                tvExpiryDate.setText("Expiry date: "+ foodItem.getExpected_expiry_date());
-                tvPurchaseDate.setText("Purchase date: "+ foodItem.getPurchase_date());
+                tvExpiryDate.setText("Expiry date: " + foodItem.getExpected_expiry_date());
+                tvPurchaseDate.setText("Purchase date: " + foodItem.getPurchase_date());
             }
             this.foodItem = foodItem;
             tvItemName.setText(foodItem.getItemName());
@@ -157,7 +190,11 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
                                     context.getResources().getString(R.string.grocery_delete_item_message),
                                     context.getResources().getString(R.string.yes),
                                     context.getResources().getString(R.string.no));
-                    dialogFragment.show(((NavActivity) context).getSupportFragmentManager(), "");
+                    if (context instanceof DishRecipeActivity)
+                        dialogFragment.show(((DishRecipeActivity) context).getSupportFragmentManager(), "");
+                    else
+                        dialogFragment.show(((NavActivity) context).getSupportFragmentManager(), "");
+
                 } else {
                     foodItem.setQuantity(qty);
                     tvItemAmount.setText("Amount: " + foodItem.getQuantity());

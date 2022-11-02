@@ -120,20 +120,6 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
             Intent intent = new Intent(context, NewFoodItemActivity.class);
             intent.putExtra("LIST_TYPE", type);
             startActivity(intent);
-
-//            if (isFridge()) {
-//                AppSessionManager.getInstance().setFridgeItems(fridgeItems);
-//                ((NavActivity) context).showActivityIndicator(context.getString(R.string.saving_data));
-//                sessionFacade.setFridgeList(context, SET_FRIDGE_PURPOSE, this, fridgeItems);
-//            } else {
-//                AppSessionManager.getInstance().setGroceries(groceries);
-//                ((NavActivity) context).showActivityIndicator(context.getString(R.string.saving_data));
-//                sessionFacade.setGroceries(context, SET_GROCERIES_PURPOSE, this, groceries);
-//            }
-//
-//            updateUI(AppSessionManager.getInstance().getGroceries(), false);
-//            btnSaveEditedItems.setVisibility(View.GONE);
-//            llAddItem.setVisibility(View.VISIBLE);
         });
 
         btnSaveEditedItems.setOnClickListener(view -> {
@@ -218,7 +204,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
     }
 
     private void updateUI(List<FoodItem> foodItems, boolean enableEditMode) {
-        foodAdapter = new FoodAdapter(context, type, foodItems, enableEditMode, this);
+        foodAdapter = new FoodAdapter((NavActivity)context, type, foodItems, enableEditMode, this);
         groceriesRecyclerView.setAdapter(foodAdapter);
 
         groceriesRecyclerView.getRecycledViewPool().clear();
@@ -274,7 +260,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
     }
 
     @Override
-    public <T> void setGroceryList(List<T> foodItems) {
+    public void setGroceryList(List<FoodItem> foodItems) {
         if (!isFridge())
             this.groceries = (List<FoodItem>) foodItems;
         else
@@ -282,7 +268,6 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         if (foodItems.isEmpty()) {
             setItems();
         }
-
     }
 
     @Override

@@ -11,7 +11,13 @@
         android:id="@+id/iv_item_image"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginEnd="16dp" />
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"/>
+    <CheckBox
+        android:id="@+id/cbItemCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -58,6 +64,14 @@
         </LinearLayout>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tvAlreadyInFridge"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="Already in\na fridge"/>
+
     <LinearLayout
         android:id="@+id/llAddSubtract"
         android:layout_width="wrap_content"
@@ -93,5 +107,6 @@
             android:padding="2dp"
             android:src="@drawable/add_icon_round" />
     </LinearLayout>
+
 
 </LinearLayout>

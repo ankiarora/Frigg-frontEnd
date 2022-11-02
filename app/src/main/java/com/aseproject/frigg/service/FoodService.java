@@ -32,13 +32,13 @@ public class FoodService implements GetListener, PostListener {
     private static final String SET_FRIDGE_PURPOSE = "SET_FRIDGE_PURPOSE";
     private static final String ADD_FOOD_ITEM = "ADD_FOOD_ITEM";
 
-    private static FoodService groceryService;
+    private static FoodService foodService;
 
     public static FoodService getInstance() {
-        if (groceryService == null) {
+        if (foodService == null) {
             return new FoodService();
         }
-        return groceryService;
+        return foodService;
     }
 
     public void getGroceries(String url, Context context, String purpose, FoodServiceGetListener listener) {
@@ -111,7 +111,7 @@ public class FoodService implements GetListener, PostListener {
     }
 
     public interface FoodServiceGetListener {
-        void notifyFetchSuccess(List<FoodItem> labResults, String purpose);
+        void notifyFetchSuccess(List<FoodItem> foodItems, String purpose);
 
         void notifyFetchError(String error, String purpose);
     }
