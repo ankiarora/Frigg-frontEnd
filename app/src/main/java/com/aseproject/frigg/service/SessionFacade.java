@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.aseproject.frigg.fragment.RecommendFragment;
 import com.aseproject.frigg.model.FoodItem;
+import com.aseproject.frigg.model.UserDetails;
 import com.aseproject.frigg.util.Constants;
 
 import java.util.List;
@@ -37,5 +38,11 @@ public class SessionFacade {
 
     public void setIngredients(Context context, String purpose, RecommendService.RecommendPostListener listener, List<FoodItem> list) {
         RecommendService.getInstance().setIngredients(context, purpose, listener, list);
+    }
+    public void loginAndRegister(Context context, String purpose, AuthService.AuthServicePostListener listener, UserDetails details) {
+        if (purpose.equalsIgnoreCase("Login"))
+            AuthService.getInstance().login(context, purpose, listener, details);
+        else
+            AuthService.getInstance().register(context, purpose, listener, details);
     }
 }

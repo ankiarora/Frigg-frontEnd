@@ -40,6 +40,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activity.AuthActivity"
+            android:exported="false">
+        </activity>
+        <activity
             android:name=".activity.NewFoodItemActivity"
             android:exported="false"
             android:label="@string/title_activity_new_food_item" />
