@@ -51,4 +51,6 @@
     <string name="recommend_me">Recommend Me</string>
     <string name="ingredients_text">You need following ingredients to cook %1$s.</string>
     <string name="title_activity_dish_recipe">DishRecipeActivity</string>
+
+    <string name="fridge_id">Fridge-Id</string>
 </resources>

@@ -20,7 +20,7 @@ public class SplashActivity extends AppCompatActivity {
             try {
                 Thread.sleep(3000);
                 mHandler.post(() -> {
-                    Intent intent = new Intent(this, NavActivity.class);
+                    Intent intent = new Intent(this, AuthActivity.class);
                     startActivity(intent);
                 });
             } catch (Exception e) {
