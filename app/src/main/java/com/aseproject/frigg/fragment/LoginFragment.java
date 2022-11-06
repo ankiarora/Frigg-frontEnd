@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.aseproject.frigg.R;
 import com.aseproject.frigg.activity.FriggActivity;
 import com.aseproject.frigg.activity.NavActivity;
+import com.aseproject.frigg.common.AppSessionManager;
 import com.aseproject.frigg.model.UserDetails;
 import com.aseproject.frigg.service.AuthService;
 import com.aseproject.frigg.service.SessionFacade;
@@ -78,7 +79,7 @@ public class LoginFragment extends Fragment implements AuthService.AuthServicePo
         register = view.findViewById(R.id.button_register);
         prefs = context.getSharedPreferences(getString(R.string.fridge_id), Context.MODE_PRIVATE);
         fridgeId = prefs.getInt(getString(R.string.fridge_id), -1);
-        if (fridgeId == -1) {
+        if (fridgeId != -1) {
             Intent myIntent = new Intent(context, NavActivity.class);
             context.startActivity(myIntent);
         }
@@ -106,6 +107,7 @@ public class LoginFragment extends Fragment implements AuthService.AuthServicePo
         UserDetails details = new Gson().fromJson(response, UserDetails.class);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(getString(R.string.fridge_id), details.getFridge_id());
+        editor.putString(getString(R.string.invite_code), details.getInviteCode());
         editor.apply();
         Intent myIntent = new Intent(context, NavActivity.class);
         context.startActivity(myIntent);

@@ -1,11 +1,13 @@
 package com.aseproject.frigg.model;
 
+import android.content.Intent;
+
 public class UserDetails {
 
+    private String invite_code;
     private String email;
     private String password;
-    private int inviteCode;
-    private int fridge_id;
+    private Integer fridge_id;
     private String message;
     private String full_name;
 
@@ -14,10 +16,11 @@ public class UserDetails {
         this.password = password;
     }
 
-    public UserDetails(String email, String password, String name) {
+    public UserDetails(String email, String password, String name, String invite_code) {
         this.email = email;
         this.password = password;
         this.full_name = name;
+        this.invite_code = invite_code;
     }
 
     public String getEmail() {
@@ -36,12 +39,12 @@ public class UserDetails {
         this.password = password;
     }
 
-    public int getInviteCode() {
-        return inviteCode;
+    public String getInviteCode() {
+        return invite_code;
     }
 
-    public void setInviteCode(int inviteCode) {
-        this.inviteCode = inviteCode;
+    public void setInviteCode(String inviteCode) {
+        this.invite_code = inviteCode;
     }
 
     public int getFridge_id() {

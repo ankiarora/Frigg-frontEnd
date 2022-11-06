@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
+import com.aseproject.frigg.common.AppSessionManager;
 import com.aseproject.frigg.interfaces.PostListener;
 import com.aseproject.frigg.model.UserDetails;
 import com.aseproject.frigg.network.PostClient;
