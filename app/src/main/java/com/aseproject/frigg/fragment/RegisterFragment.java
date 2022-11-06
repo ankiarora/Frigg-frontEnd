@@ -35,6 +35,7 @@ public class RegisterFragment extends Fragment implements AuthService.AuthServic
     MaterialButton login, register;
     SessionFacade sessionFacade;
     Context context;
+    private TextInputLayout registration_code;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -72,6 +73,7 @@ public class RegisterFragment extends Fragment implements AuthService.AuthServic
         emailET = view.findViewById(R.id.edit_email);
         passwordET = view.findViewById(R.id.edit_password);
         nameET = view.findViewById(R.id.edit_name);
+        registration_code = view.findViewById(R.id.registration_code);
         login = view.findViewById(R.id.button_login);
         register = view.findViewById(R.id.button_register);
         handleButtonActions();
@@ -84,13 +86,14 @@ public class RegisterFragment extends Fragment implements AuthService.AuthServic
             FragmentTransaction fragmentTransaction = fragmentManager
                     .beginTransaction();
             fragmentTransaction.replace(R.id.container, loginFragment).commit();
-            });
+        });
 
         register.setOnClickListener(view -> {
             String name = Objects.requireNonNull(nameET.getEditText()).getText().toString();
             String email = Objects.requireNonNull(emailET.getEditText()).getText().toString();
             String password = Objects.requireNonNull(passwordET.getEditText()).getText().toString();
-            UserDetails userDetails = new UserDetails(name, email, password);
+            String invite_code = Objects.requireNonNull(registration_code.getEditText()).getText().toString();
+            UserDetails userDetails = new UserDetails(email, password, name, invite_code);
             sessionFacade.loginAndRegister(context, "REGISTER", this, userDetails);
         });
     }

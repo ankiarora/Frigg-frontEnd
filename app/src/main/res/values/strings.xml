@@ -53,4 +53,5 @@
     <string name="title_activity_dish_recipe">DishRecipeActivity</string>
 
     <string name="fridge_id">Fridge-Id</string>
+    <string name="invite_code">Invite-code</string>
 </resources>
