@@ -16,6 +16,5 @@ public class AuthActivity extends AppCompatActivity {
         setContentView(R.layout.activity_auth);
         LoginFragment loginFragment = new LoginFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.container, loginFragment).commit();
-
     }
 }
