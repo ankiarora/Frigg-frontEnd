@@ -69,6 +69,8 @@ public class DishRecipeFragment extends Fragment implements RecommendService.Rec
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((DishRecipeActivity) context).setTitle("Recipe");
+
         dishName = ((DishRecipeActivity) context).getIntent().getStringExtra("DISH_NAME");
         mEmptyView = view.findViewById(R.id.groceries_empty_view);
         sessionFacade = new SessionFacade();
@@ -91,7 +93,7 @@ public class DishRecipeFragment extends Fragment implements RecommendService.Rec
 
     @Override
     public void setGroceryList(List<FoodItem> foodItems) {
-        this.foodItems = (List<FoodItem>) foodItems;
+        this.foodItems = foodItems;
         if (foodItems.isEmpty()) {
             setItems();
         }
@@ -193,6 +195,7 @@ public class DishRecipeFragment extends Fragment implements RecommendService.Rec
     @Override
     public void notifyPostSuccess(String response, String purpose) {
         ((DishRecipeActivity) context).hideActivityIndicator();
+        ((DishRecipeActivity) context).onBackPressed();
         updateUI(AppSessionManager.getInstance().getGroceries(), false);
         btnSaveEditedItems.setVisibility(View.GONE);
     }
