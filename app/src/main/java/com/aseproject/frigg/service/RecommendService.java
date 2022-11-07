@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.aseproject.frigg.R;
+import com.aseproject.frigg.common.AppSessionManager;
 import com.aseproject.frigg.errorhandling.VolleyErrorHandler;
 import com.aseproject.frigg.interfaces.GetListener;
 import com.aseproject.frigg.interfaces.PostListener;
@@ -43,7 +44,7 @@ public class RecommendService implements GetListener, PostListener {
 
     public void setIngredients(Context context, String purpose, RecommendPostListener listener, List<FoodItem> list) {
         this.postListener = listener;
-        final String url = Constants.BASE_URL + "GroceryList/AddGroceryList";
+        final String url = Constants.BASE_URL + "GroceryList/AddGroceryList/"+AppSessionManager.getInstance().getFridgeId();
         this.context = context;
         PostClient postClient = new PostClient(this, context);
         postClient.sendData(url, new Gson().toJson(list), null, purpose);

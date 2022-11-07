@@ -26,10 +26,20 @@
         android:padding="20dp"/>
 
     <TextView
-        android:id="@+id/tvSettings"
+        android:id="@+id/tvProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Settings"
+        android:text="Profile"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:padding="20dp"/>
+
+
+    <TextView
+        android:id="@+id/signout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign out"
         android:textStyle="bold"
         android:textSize="18sp"
         android:padding="20dp"/>

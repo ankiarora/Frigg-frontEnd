@@ -101,7 +101,7 @@ public class RegisterFragment extends Fragment implements AuthService.AuthServic
     @Override
     public void notifyPostSuccess(String response, String purpose) {
         Log.d(TAG, response);
-        Intent myIntent = new Intent(context, NavActivity.class);
+        Intent myIntent = new Intent(context, LoginFragment.class);
         context.startActivity(myIntent);
     }
 

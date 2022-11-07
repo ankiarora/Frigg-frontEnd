@@ -2,6 +2,7 @@ package com.aseproject.frigg.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,13 +15,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aseproject.frigg.R;
+import com.aseproject.frigg.activity.AuthActivity;
 import com.aseproject.frigg.activity.FamilyMemberActivity;
+import com.aseproject.frigg.activity.NavActivity;
 
 
 public class MoreFragment extends Fragment {
     private TextView tvSetPreference;
     private TextView tvAddFamilyMembers;
-    private TextView tvSettings;
+    private TextView tvProfile;
+    private TextView tvSignout;
     private Context context;
 
     @Override
@@ -42,7 +46,8 @@ public class MoreFragment extends Fragment {
 
         tvSetPreference = view.findViewById(R.id.tvSetPreference);
         tvAddFamilyMembers = view.findViewById(R.id.tvAddFamilyMembers);
-        tvSettings = view.findViewById(R.id.tvSettings);
+        tvProfile = view.findViewById(R.id.tvProfile);
+        tvSignout = view.findViewById(R.id.signout);
 
         setOnClickListeners();
     }
@@ -52,8 +57,16 @@ public class MoreFragment extends Fragment {
 
         });
 
-        tvSettings.setOnClickListener(view ->  {
+        tvProfile.setOnClickListener(view -> {
 
+        });
+
+        tvSignout.setOnClickListener(view -> {
+            SharedPreferences preferences = context.getSharedPreferences(getString(R.string.fridge_id), Context.MODE_PRIVATE);
+            preferences.edit().clear().commit();
+            Intent intent = new Intent(context, AuthActivity.class);
+            startActivity(intent);
+            ((NavActivity) context).finish();
         });
 
         tvAddFamilyMembers.setOnClickListener(view -> {

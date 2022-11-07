@@ -5,10 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.aseproject.frigg.R;
-import com.aseproject.frigg.fragment.FamilyMemeberFragment;
-import com.aseproject.frigg.fragment.FoodDetailFragment;
+import com.aseproject.frigg.fragment.FamilyMemberFragment;
 
-public class FamilyMemberActivity extends AppCompatActivity {
+public class FamilyMemberActivity extends FriggActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,8 +17,8 @@ public class FamilyMemberActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        FamilyMemeberFragment familyMemeberFragment = new FamilyMemeberFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, familyMemeberFragment).commit();
+        FamilyMemberFragment familyMemberFragment = new FamilyMemberFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, familyMemberFragment).commit();
     }
 
     @Override
