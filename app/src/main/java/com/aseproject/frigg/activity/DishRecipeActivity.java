@@ -17,5 +17,15 @@ public class DishRecipeActivity extends FriggActivity {
 
         DishRecipeFragment dishRecipeFragment = new DishRecipeFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.container, dishRecipeFragment).commit();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

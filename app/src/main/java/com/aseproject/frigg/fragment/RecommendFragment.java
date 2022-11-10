@@ -63,6 +63,8 @@ public class RecommendFragment extends Fragment implements RecommendService.Reco
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((NavActivity) context).setTitle("Recommend");
+
         svSearchItem = view.findViewById(R.id.etSearchItem);
         mEmptyView = view.findViewById(R.id.groceries_empty_view);
         recommendedDishList = view.findViewById(R.id.recommendedDishList);
