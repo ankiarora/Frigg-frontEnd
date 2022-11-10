@@ -134,6 +134,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
             }
 
             cbItemCheck.setOnCheckedChangeListener((compoundButton, b) -> {
+                foodItem.setChecked(b);
                 if (b) {
                     llAddSubtract.setVisibility(View.VISIBLE);
                 } else {

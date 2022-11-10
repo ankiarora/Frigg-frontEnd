@@ -5,20 +5,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.aseproject.frigg.R;
-import com.aseproject.frigg.fragment.NewFoodItemFragment;
+import com.aseproject.frigg.fragment.FamilyMemeberFragment;
+import com.aseproject.frigg.fragment.FoodDetailFragment;
 
-public class NewFoodItemActivity extends FriggActivity {
+public class FamilyMemberActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_food_item);
+        setContentView(R.layout.activity_family_member);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        NewFoodItemFragment foodFragment = new NewFoodItemFragment(getIntent().getStringExtra("LIST_TYPE"));
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, foodFragment).commit();
+        FamilyMemeberFragment familyMemeberFragment = new FamilyMemeberFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, familyMemeberFragment).commit();
     }
 
     @Override

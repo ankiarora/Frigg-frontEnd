@@ -45,11 +45,12 @@ public class FoodItem implements Serializable {
     public String getExpected_expiry_date() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
         Date localDate = new Date();
-        try {
-            localDate = sdf.parse(expected_expiry_date);
-        } catch (ParseException e) {
+        if (!expected_expiry_date.isEmpty()) {
+            try {
+                localDate = sdf.parse(expected_expiry_date);
+            } catch (ParseException e) {
+            }
         }
-
         sdf = new SimpleDateFormat("dd MMM, yyyy");
         return sdf.format(localDate);
     }
@@ -71,11 +72,12 @@ public class FoodItem implements Serializable {
     public String getPurchase_date() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
         Date localDate = new Date();
-        try {
-            localDate = sdf.parse(purchase_date);
-        } catch (ParseException e) {
+        if (!purchase_date.isEmpty()) {
+            try {
+                localDate = sdf.parse(purchase_date);
+            } catch (ParseException e) {
+            }
         }
-
         sdf = new SimpleDateFormat("dd MMM, yyyy");
         return sdf.format(localDate);
     }

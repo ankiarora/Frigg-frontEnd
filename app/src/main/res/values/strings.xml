@@ -31,6 +31,9 @@
     <string name="add_items_error">Unable to add an item</string>
     <string name="ok">Ok</string>
 
+    <string name="item_added">Item Added!</string>
+    <string name="item_added_msg">Item was added. Please check your %1$s.</string>
+
 
     <string name="add_food_name">What food item would you like to add?</string>
     <string name="add_food_qty">How many would you like to add?</string>
@@ -43,7 +46,7 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <string name="add_item_format">Add <u>5</u> <u>Apples</u></string>
+    <string name="add_item_format">Add 5 Apples to Grocery List</string>
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
