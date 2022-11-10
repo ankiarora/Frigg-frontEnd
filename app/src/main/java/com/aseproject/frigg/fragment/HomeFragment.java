@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.aseproject.frigg.R;
 import com.aseproject.frigg.activity.NavActivity;
 import com.aseproject.frigg.activity.NavActivity;
+import com.aseproject.frigg.common.AppSessionManager;
 import com.aseproject.frigg.common.CommonDialogFragment;
 import com.aseproject.frigg.model.FoodItem;
 import com.aseproject.frigg.service.FoodService;
@@ -101,11 +102,11 @@ public class HomeFragment extends Fragment implements FoodService.FoodServicePos
             if (cbFridgeList.isChecked()) {
                 foodItem.setExpected_expiry_date(foodItem.getExpected_expiry_date());
                 foodItem.setPurchase_date(foodItem.getPurchase_date());
-                url = Constants.BASE_URL + "FridgeList/AddFoodItemByName";
+                url = Constants.BASE_URL + "FridgeList/AddFoodItemByName/"+ AppSessionManager.getInstance().getFridgeId();
                 sessionFacade.addItem(context, foodItem, url, ADD_FOOD_ITEM, this);
             }
             if (cbGroceryList.isChecked()) {
-                url = Constants.BASE_URL + "GroceryList/AddFoodItemByName";
+                url = Constants.BASE_URL + "GroceryList/AddFoodItemByName/"+ AppSessionManager.getInstance().getFridgeId();
                 sessionFacade.addItem(context, foodItem, url, ADD_FOOD_ITEM, this);
             }
         });

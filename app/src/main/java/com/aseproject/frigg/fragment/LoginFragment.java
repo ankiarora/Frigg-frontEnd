@@ -39,6 +39,7 @@ public class LoginFragment extends Fragment implements AuthService.AuthServicePo
     Context context;
     SharedPreferences prefs;
     int fridgeId = 0;
+    private String inviteCode;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -79,6 +80,10 @@ public class LoginFragment extends Fragment implements AuthService.AuthServicePo
         register = view.findViewById(R.id.button_register);
         prefs = context.getSharedPreferences(getString(R.string.fridge_id), Context.MODE_PRIVATE);
         fridgeId = prefs.getInt(getString(R.string.fridge_id), -1);
+        inviteCode = prefs.getString(getString(R.string.invite_code), "");
+        AppSessionManager.getInstance().setFridgeId(fridgeId);
+        AppSessionManager.getInstance().setInviteCode(inviteCode);
+
         if (fridgeId != -1) {
             Intent myIntent = new Intent(context, NavActivity.class);
             context.startActivity(myIntent);
@@ -108,6 +113,8 @@ public class LoginFragment extends Fragment implements AuthService.AuthServicePo
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(getString(R.string.fridge_id), details.getFridge_id());
         editor.putString(getString(R.string.invite_code), details.getInviteCode());
+        AppSessionManager.getInstance().setInviteCode(details.getInviteCode());
+        AppSessionManager.getInstance().setFridgeId(details.getFridge_id());
         editor.apply();
         Intent myIntent = new Intent(context, NavActivity.class);
         context.startActivity(myIntent);

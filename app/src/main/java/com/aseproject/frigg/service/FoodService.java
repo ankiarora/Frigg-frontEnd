@@ -57,7 +57,7 @@ public class FoodService implements GetListener, PostListener {
 
     public void setGroceries(Context context, String purpose, FoodServicePostListener listener, List<FoodItem> groceryItems) {
         this.postListener = listener;
-        final String url = Constants.BASE_URL + "GroceryList/UpdateGroceryList";
+        final String url = Constants.BASE_URL + "GroceryList/UpdateGroceryList/"+ AppSessionManager.getInstance().getFridgeId();
         this.context = context;
         PostClient postClient = new PostClient(this, context);
         postClient.sendData(url, new Gson().toJson(groceryItems), null, purpose);
@@ -65,7 +65,7 @@ public class FoodService implements GetListener, PostListener {
 
     public void setFridgeItem(Context context, String purpose, FoodServicePostListener listener, List<FoodItem> fridgeItems) {
         this.postListener = listener;
-        final String url = Constants.BASE_URL + "FridgeList/UpdateFridgeList";
+        final String url = Constants.BASE_URL + "FridgeList/UpdateFridgeList/"+ AppSessionManager.getInstance().getFridgeId();
         this.context = context;
         PostClient postClient = new PostClient(this, context);
         postClient.sendData(url, new Gson().toJson(fridgeItems), null, purpose);

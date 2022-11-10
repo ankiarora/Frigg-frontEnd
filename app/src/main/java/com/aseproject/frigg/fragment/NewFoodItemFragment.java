@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.aseproject.frigg.R;
 import com.aseproject.frigg.activity.NewFoodItemActivity;
+import com.aseproject.frigg.common.AppSessionManager;
 import com.aseproject.frigg.common.CommonDialogFragment;
 import com.aseproject.frigg.model.FoodItem;
 import com.aseproject.frigg.service.FoodService;
@@ -168,9 +169,9 @@ public class NewFoodItemFragment extends Fragment implements FoodService.FoodSer
             if (isFridge()) {
                 foodItem.setExpected_expiry_date(etFoodExpiry.getText().toString());
                 foodItem.setPurchase_date(etFoodPurchase.getText().toString());
-                url = Constants.BASE_URL + "FridgeList/AddFoodItemByName";
+                url = Constants.BASE_URL + "FridgeList/AddFoodItemByName/"+ AppSessionManager.getInstance().getFridgeId();
             } else {
-                url = Constants.BASE_URL + "GroceryList/AddFoodItemByName";
+                url = Constants.BASE_URL + "GroceryList/AddFoodItemByName/"+ AppSessionManager.getInstance().getFridgeId();
             }
             sessionFacade.addItem(context, foodItem, url, ADD_FOOD_ITEM, this);
         });
