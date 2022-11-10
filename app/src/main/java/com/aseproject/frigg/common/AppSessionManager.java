@@ -13,6 +13,8 @@ public class AppSessionManager {
     private static volatile AppSessionManager mInstance;
     private List<FoodItem> groceries = new ArrayList<>();
     private List<FoodItem> fridgeItems = new ArrayList<>();
+    private int fridgeId;
+    private String inviteCode;
 
     //Private constructor
     private AppSessionManager() {
@@ -27,6 +29,22 @@ public class AppSessionManager {
             if (mInstance == null) mInstance = new AppSessionManager();
         }
         return mInstance;
+    }
+
+    public int getFridgeId() {
+        return fridgeId;
+    }
+
+    public String getInviteCode() {
+        return inviteCode;
+    }
+
+    public void setFridgeId(int fridgeId) {
+        this.fridgeId = fridgeId;
+    }
+
+    public void setInviteCode(String inviteCode) {
+        this.inviteCode = inviteCode;
     }
 
     public List<FoodItem> getGroceries() {

@@ -2,6 +2,7 @@ package com.aseproject.frigg.service;
 
 import android.content.Context;
 
+import com.aseproject.frigg.common.AppSessionManager;
 import com.aseproject.frigg.fragment.RecommendFragment;
 import com.aseproject.frigg.model.FoodItem;
 import com.aseproject.frigg.model.UserDetails;
@@ -11,12 +12,12 @@ import java.util.List;
 
 public class SessionFacade {
     public void getGroceries(Context context, String purpose, FoodService.FoodServiceGetListener listener) {
-        final String url = Constants.BASE_URL + "GroceryList/";
+        final String url = Constants.BASE_URL + "GroceryList/"+ AppSessionManager.getInstance().getFridgeId();
         FoodService.getInstance().getGroceries(url, context, purpose, listener);
     }
 
     public void getFridgeList(Context context, String purpose, FoodService.FoodServiceGetListener listener) {
-        final String url = Constants.BASE_URL + "FridgeList/";
+        final String url = Constants.BASE_URL + "FridgeList/"+ AppSessionManager.getInstance().getFridgeId();
         FoodService.getInstance().getFridgeItems(url, context, purpose, listener);
     }
 
@@ -44,5 +45,9 @@ public class SessionFacade {
             AuthService.getInstance().login(context, purpose, listener, details);
         else
             AuthService.getInstance().register(context, purpose, listener, details);
+    }
+
+    public void getConnectedFamilyMembers(Context context, FamilyMembersService.FamilyMemberListener listener, String purpose) {
+        FamilyMembersService.getInstance().getConnectedFamilyMembers(context, listener, purpose);
     }
 }
