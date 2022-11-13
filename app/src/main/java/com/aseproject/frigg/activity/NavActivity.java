@@ -23,6 +23,12 @@ public class NavActivity extends FriggActivity {
 
         handleBottomNavigation();
         bottomNavigationView.setSelectedItemId(R.id.menu_item_0);
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            if (getIntent().getExtras() != null){
+                FoodFragment foodFragment = new FoodFragment(getString(R.string.fridge_title));
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, foodFragment).commit();
+            }
+        }
     }
 
     private void handleBottomNavigation() {

@@ -1,7 +1,11 @@
 package com.aseproject.frigg.fragment;
 
+import static androidx.core.content.ContextCompat.getSystemService;
 import static com.aseproject.frigg.activity.VoiceRecognitionActivity.RecordAudioRequestCode;
 
+import android.app.ActivityManager;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -29,6 +33,7 @@ import com.aseproject.frigg.activity.FoodDetailActivity;
 import com.aseproject.frigg.activity.NavActivity;
 import com.aseproject.frigg.activity.NewFoodItemActivity;
 import com.aseproject.frigg.adapter.FoodAdapter;
+import com.aseproject.frigg.backgroundService.ExpiryService;
 import com.aseproject.frigg.common.AppSessionManager;
 import com.aseproject.frigg.common.CommonDialogFragment;
 import com.aseproject.frigg.common.FriggRecyclerView;
@@ -37,6 +42,7 @@ import com.aseproject.frigg.service.FoodService;
 import com.aseproject.frigg.service.SessionFacade;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class FoodFragment extends Fragment implements FoodService.FoodServiceGetListener, FoodService.FoodServicePostListener, FoodAdapter.GroceryHolderListener, CommonDialogFragment.DialogInterface {
@@ -77,6 +83,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         sessionFacade = new SessionFacade();
+        startExpiryService();
         return inflater.inflate(R.layout.fragment_grocery, container, false);
     }
 
@@ -287,5 +294,26 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
     @Override
     public void onSelectedNegBtn() {
         //do nothing
+    }
+
+    private void startExpiryService() {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (ExpiryService.class.getName().equals(service.service.getClassName())) {
+                // running
+                Log.d(TAG, "expiry service already running");
+            }
+        }
+        // not running
+        Log.d(TAG, "expiry service not running... starting the service");
+        Calendar cal = Calendar.getInstance();
+        Intent intent = new Intent(context, ExpiryService.class);
+        PendingIntent pintent = PendingIntent
+                .getService(context, 0, intent, 0);
+
+        AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        // Start service day
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
+                24 * 3600*1000, pintent);
     }
 }
