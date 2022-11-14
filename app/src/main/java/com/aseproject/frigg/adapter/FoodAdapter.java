@@ -61,7 +61,10 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
     public void onBindViewHolder(GroceryHolder holder, int position) {
         holder.bind(foodList.get(position));
     }
-
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     @Override
     public int getItemCount() {
         Log.d(TAG, "getItemCount: " + foodList.size());
