@@ -129,6 +129,16 @@
         <include
             android:id="@+id/saveNewItem"
             layout="@layout/button_ui" />
+
+        <TextView
+            android:id="@+id/tvScanReceipt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:text="Scan the receipt"/>
     </LinearLayout>
 
 </LinearLayout>

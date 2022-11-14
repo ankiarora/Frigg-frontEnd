@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.aseproject.frigg.R;
+import com.aseproject.frigg.common.AppSessionManager;
 import com.aseproject.frigg.errorhandling.VolleyErrorHandler;
 import com.aseproject.frigg.interfaces.GetListener;
 import com.aseproject.frigg.interfaces.PostListener;
@@ -16,6 +17,7 @@ import com.aseproject.frigg.util.Constants;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class RecommendService implements GetListener, PostListener {
@@ -25,6 +27,8 @@ public class RecommendService implements GetListener, PostListener {
     private RecommendListener listener;
     private static final String PURPOSE_INGREDIENTS = "PURPOSE_INGREDIENTS";
     private static final String PURPOSE_DISHES = "PURPOSE_DISHES";
+    private static final String PURPOSE_RECOMMEND_DISHES = "PURPOSE_RECOMMEND_DISHES";
+
     private RecommendPostListener postListener;
 
     public static RecommendService getInstance() {
@@ -43,7 +47,7 @@ public class RecommendService implements GetListener, PostListener {
 
     public void setIngredients(Context context, String purpose, RecommendPostListener listener, List<FoodItem> list) {
         this.postListener = listener;
-        final String url = Constants.BASE_URL + "GroceryList/AddGroceryList";
+        final String url = Constants.BASE_URL + "GroceryList/AddGroceryList/"+ AppSessionManager.getInstance().getFridgeId();
         this.context = context;
         PostClient postClient = new PostClient(this, context);
         postClient.sendData(url, new Gson().toJson(list), null, purpose);
@@ -77,6 +81,7 @@ public class RecommendService implements GetListener, PostListener {
 
     @Override
     public void notifyPostError(VolleyError error, String message, String purpose) {
+        new String(error.networkResponse.data, StandardCharsets.UTF_8);
         postListener.notifyPostError(message, purpose);
     }
 

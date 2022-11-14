@@ -6,6 +6,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Paint;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,9 +29,11 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aseproject.frigg.R;
+import com.aseproject.frigg.activity.CameraActivity;
 import com.aseproject.frigg.activity.NavActivity;
 import com.aseproject.frigg.activity.NavActivity;
 import com.aseproject.frigg.common.AppSessionManager;
@@ -56,6 +59,7 @@ public class HomeFragment extends Fragment implements FoodService.FoodServicePos
     private LinearLayout saveNewItem;
     private SessionFacade sessionFacade;
     private static String ADD_FOOD_ITEM = "ADD_FOOD_ITEM";
+    private TextView tvScanReceipt;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -83,6 +87,7 @@ public class HomeFragment extends Fragment implements FoodService.FoodServicePos
         cbFridgeList = view.findViewById(R.id.cbFridgeList);
         cbGroceryList = view.findViewById(R.id.cbGroceryList);
         saveNewItem = view.findViewById(R.id.saveNewItem);
+        tvScanReceipt = view.findViewById(R.id.tvScanReceipt);
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context);
 
         ivMicBtn.setOnClickListener(view1 -> {
@@ -91,6 +96,12 @@ public class HomeFragment extends Fragment implements FoodService.FoodServicePos
             } else {
                 setMicToText();
             }
+        });
+
+        tvScanReceipt.setPaintFlags(tvScanReceipt.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        tvScanReceipt.setOnClickListener(view12 -> {
+            Intent intent = new Intent(context, CameraActivity.class);
+            startActivity(intent);
         });
 
         saveNewItem.setOnClickListener(view1 -> {
@@ -165,9 +176,9 @@ public class HomeFragment extends Fragment implements FoodService.FoodServicePos
                         etFoodQuantity.setText(spokenDataList.get(1));
                         etFoodItem.setText(spokenDataList.get(2));
                         String list = spokenDataList.get(4) + " " + spokenDataList.get(5);
-                        if (list.equals("Grocery List")) {
+                        if (list.equalsIgnoreCase("Grocery List")) {
                             cbGroceryList.setChecked(true);
-                        } else if (list.equals("Fridge List")) {
+                        } else if (list.equalsIgnoreCase("Fridge List")) {
                             cbFridgeList.setChecked(true);
                         }
                     }
