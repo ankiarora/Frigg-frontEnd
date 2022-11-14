@@ -205,7 +205,6 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         groceriesRecyclerView.setLayoutManager(layoutManager);
         groceriesRecyclerView.setEmptyView(mEmptyView);
-
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context, layoutManager.getOrientation());
         groceriesRecyclerView.addItemDecoration(dividerItemDecoration);
     }
