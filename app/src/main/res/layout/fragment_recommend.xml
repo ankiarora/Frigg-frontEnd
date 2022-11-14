@@ -51,6 +51,69 @@
                 android:gravity="top"
                 android:padding="10dp"
                 android:scrollbars="vertical" />
+
+           <LinearLayout
+               android:id="@+id/llRecommendItems"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:orientation="vertical"
+               android:layout_weight="1">
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:textStyle="italic|bold"
+                   android:textSize="16sp"
+                   android:layout_margin="16dp"
+                   android:text="Would you wish to prepare a dish whose ingredients will soon expire?"
+                   />
+               <TextView
+                   android:id="@+id/item_1"
+                   android:textStyle="bold"
+                   android:textAllCaps="true"
+                   android:textSize="16sp"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="16dp"
+                   android:visibility="gone"
+                   android:background="@color/gray"
+                   android:padding="10dp"/>
+
+               <TextView
+                   android:id="@+id/item_2"
+                   android:textStyle="bold"
+                   android:textAllCaps="true"
+                   android:textSize="16sp"
+                   android:layout_width="match_parent"
+                   android:visibility="gone"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="16dp"
+                   android:background="@color/gray"
+                   android:padding="10dp"/>
+
+               <TextView
+                   android:id="@+id/item_3"
+                   android:textStyle="bold"
+                   android:textAllCaps="true"
+                   android:textSize="16sp"
+                   android:visibility="gone"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="16dp"
+                   android:background="@color/gray"
+                   android:padding="10dp"/>
+
+               <TextView
+                   android:id="@+id/item_4"
+                   android:textStyle="bold"
+                   android:textAllCaps="true"
+                   android:textSize="16sp"
+                   android:layout_width="match_parent"
+                   android:visibility="gone"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="16dp"
+                   android:background="@color/gray"
+                   android:padding="10dp"/>
+           </LinearLayout>
         </LinearLayout>
 
 

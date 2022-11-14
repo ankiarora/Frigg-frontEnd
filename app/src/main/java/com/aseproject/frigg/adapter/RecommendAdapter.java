@@ -34,6 +34,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Reco
         this.listener = listener;
     }
 
+    public String[] getDishes() {
+        return dishes;
+    }
+
     @NonNull
     @Override
     public RecommendHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

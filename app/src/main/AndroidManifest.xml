@@ -47,6 +47,11 @@
             android:name=".activity.AuthActivity"
             android:exported="false">
         </activity>
+
+        <activity
+            android:name=".activity.CameraActivity"
+            android:exported="false">
+        </activity>
         <activity
             android:name=".activity.NewFoodItemActivity"
             android:exported="false"

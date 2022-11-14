@@ -127,7 +127,7 @@ public class DishRecipeFragment extends Fragment implements RecommendService.Rec
 
     private void searchIngredients(String itemName) {
         ((DishRecipeActivity) context).showActivityIndicator(context.getString(R.string.fetching_data));
-        String url = Constants.BASE_URL + "GenerateGroceryList/" + itemName + "/1";
+        String url = Constants.BASE_URL + "GenerateGroceryList/" + itemName + "/"+AppSessionManager.getInstance().getFridgeId();
         sessionFacade.searchIngredients(context, PURPOSE_INGREDIENTS, this, url);
     }
 
@@ -214,7 +214,7 @@ public class DishRecipeFragment extends Fragment implements RecommendService.Rec
 
     @Override
     public void notifyFetchError(String error, String purpose) {
-
+        ((DishRecipeActivity) context).hideActivityIndicator();
     }
 
     @Override
