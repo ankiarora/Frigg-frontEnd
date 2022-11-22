@@ -167,6 +167,10 @@ public class NewFoodItemFragment extends Fragment implements FoodService.FoodSer
 
 
         saveNewItem.setOnClickListener(view -> {
+            if (checkIfFieldsAreEmpty()) {
+                Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_LONG).show();
+                return;
+            }
             FoodItem foodItem = new FoodItem();
             ((NewFoodItemActivity) context).showActivityIndicator(context.getString(R.string.saving_data));
             foodItem.setFood_item_name(etFoodItem.getText().toString());
@@ -192,6 +196,23 @@ public class NewFoodItemFragment extends Fragment implements FoodService.FoodSer
             Intent myIntent = new Intent(context, NavActivity.class);
             context.startActivity(myIntent);
         });
+    }
+
+    private boolean checkIfFieldsAreEmpty() {
+        String foodItem = etFoodItem.getText().toString();
+        String quantity = etFoodQuantity.getText().toString();
+        if (isFridge()) {
+            String purchaseDate = etFoodPurchase.getText().toString();
+            String expiryDate = etFoodExpiry.getText().toString();
+
+            if (foodItem == null || foodItem.isEmpty() || quantity == null || quantity.isEmpty() ||
+                    purchaseDate == null || purchaseDate.isEmpty() || expiryDate == null || expiryDate.isEmpty())
+                return true;
+        } else {
+            if (foodItem == null || foodItem.isEmpty() || quantity == null || quantity.isEmpty())
+                return true;
+        }
+        return false;
     }
 
     private void updatePurchaseLabel(Calendar calendar) {

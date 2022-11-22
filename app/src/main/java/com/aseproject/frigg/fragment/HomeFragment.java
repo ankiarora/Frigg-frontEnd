@@ -105,6 +105,10 @@ public class HomeFragment extends Fragment implements FoodService.FoodServicePos
         });
 
         saveNewItem.setOnClickListener(view1 -> {
+            if (checkIfFieldsAreEmpty()) {
+                Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_LONG).show();
+                return;
+            }
             FoodItem foodItem = new FoodItem();
             ((NavActivity) context).showActivityIndicator(context.getString(R.string.saving_data));
             foodItem.setFood_item_name(etFoodItem.getText().toString());
@@ -121,6 +125,16 @@ public class HomeFragment extends Fragment implements FoodService.FoodServicePos
                 sessionFacade.addItem(context, foodItem, url, ADD_FOOD_ITEM, this);
             }
         });
+    }
+
+    private boolean checkIfFieldsAreEmpty() {
+        String itemName = etFoodItem.getText().toString();
+        String quantity = etFoodQuantity.getText().toString();
+        boolean type = cbFridgeList.isChecked() || cbGroceryList.isChecked();
+        if (itemName == null || itemName.isEmpty() || quantity == null || quantity.isEmpty()
+                || !type)
+            return true;
+        return false;
     }
 
     private void setMicToText() {
