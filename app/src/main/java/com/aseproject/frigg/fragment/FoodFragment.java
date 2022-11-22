@@ -34,6 +34,7 @@ import com.aseproject.frigg.activity.NavActivity;
 import com.aseproject.frigg.activity.NewFoodItemActivity;
 import com.aseproject.frigg.adapter.FoodAdapter;
 import com.aseproject.frigg.backgroundService.ExpiryService;
+import com.aseproject.frigg.backgroundService.ThresholdItemsService;
 import com.aseproject.frigg.common.AppSessionManager;
 import com.aseproject.frigg.common.CommonDialogFragment;
 import com.aseproject.frigg.common.FriggRecyclerView;
@@ -84,6 +85,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         sessionFacade = new SessionFacade();
         startExpiryService();
+        startThresholdService();
         return inflater.inflate(R.layout.fragment_grocery, container, false);
     }
 
@@ -311,7 +313,28 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
                 .getService(context, 0, intent, 0);
 
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        // Start service day
+        // Start service daily
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
+                24 * 3600*1000, pintent);
+    }
+
+    private void startThresholdService() {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (ExpiryService.class.getName().equals(service.service.getClassName())) {
+                // running
+                Log.d(TAG, "threshold service already running");
+            }
+        }
+        // not running
+        Log.d(TAG, "thresold service not running... starting the service");
+        Calendar cal = Calendar.getInstance();
+        Intent intent = new Intent(context, ThresholdItemsService.class);
+        PendingIntent pintent = PendingIntent
+                .getService(context, 0, intent, 0);
+
+        AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        // Start service daily
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
                 24 * 3600*1000, pintent);
     }

@@ -139,4 +139,8 @@
         android:id="@+id/saveNewItem"
         layout="@layout/button_ui" />
 
+    <include
+        android:id="@+id/cancelNewItem"
+        layout="@layout/cancel_button_ui" />
+
 </LinearLayout>

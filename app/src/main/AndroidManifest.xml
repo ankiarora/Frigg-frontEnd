@@ -27,6 +27,10 @@
             android:name=".backgroundService.ExpiryService"
             android:exported="false">
         </service>
+        <service
+            android:name=".backgroundService.ThresholdItemsService"
+            android:exported="false">
+        </service>
         <activity
             android:name=".activity.FamilyMemberActivity"
             android:exported="false" />
@@ -68,6 +72,13 @@
         <activity
             android:name=".activity.NavActivity"
             android:exported="true" />
+
+        <receiver android:name=".util.BroadcastReceiverHelper"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

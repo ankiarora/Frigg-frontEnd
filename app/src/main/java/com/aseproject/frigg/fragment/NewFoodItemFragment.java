@@ -17,6 +17,8 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -26,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aseproject.frigg.R;
+import com.aseproject.frigg.activity.NavActivity;
 import com.aseproject.frigg.activity.NewFoodItemActivity;
 import com.aseproject.frigg.common.AppSessionManager;
 import com.aseproject.frigg.common.CommonDialogFragment;
@@ -68,6 +72,7 @@ public class NewFoodItemFragment extends Fragment implements FoodService.FoodSer
     private TextView tvAddButton;
     private SessionFacade sessionFacade;
     private static String ADD_FOOD_ITEM = "ADD_FOOD_ITEM";
+    private LinearLayout cancelNewItem;
 
     public NewFoodItemFragment(String type) {
         this.type = type;
@@ -102,6 +107,7 @@ public class NewFoodItemFragment extends Fragment implements FoodService.FoodSer
         saveNewItem = view.findViewById(R.id.saveNewItem);
         tvAddButton = saveNewItem.findViewById(R.id.btn_text);
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context);
+        cancelNewItem = view.findViewById(R.id.cancelNewItem);
 
         prepareView();
         setClickHandlers();
@@ -174,6 +180,17 @@ public class NewFoodItemFragment extends Fragment implements FoodService.FoodSer
                 url = Constants.BASE_URL + "GroceryList/AddFoodItemByName/"+ AppSessionManager.getInstance().getFridgeId();
             }
             sessionFacade.addItem(context, foodItem, url, ADD_FOOD_ITEM, this);
+        });
+
+        cancelNewItem.setOnClickListener((v) -> {
+//            RegisterFragment registerFragment = new RegisterFragment();
+//            FragmentManager fragmentManager = getFragmentManager();
+//            FragmentTransaction fragmentTransaction = fragmentManager
+//                    .beginTransaction();
+//            fragmentTransaction.replace(R.id.container, registerFragment).commit();
+
+            Intent myIntent = new Intent(context, NavActivity.class);
+            context.startActivity(myIntent);
         });
     }
 
