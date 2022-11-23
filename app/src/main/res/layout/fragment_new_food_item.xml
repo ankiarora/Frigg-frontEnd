@@ -29,6 +29,7 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etFoodItem"
                 android:layout_width="match_parent"
+                android:inputType=""
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Oranges" />

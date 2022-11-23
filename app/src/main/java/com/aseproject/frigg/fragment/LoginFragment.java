@@ -93,8 +93,12 @@ public class LoginFragment extends Fragment implements AuthService.AuthServicePo
 
     private void handleButtonActions() {
         login.setOnClickListener(view -> {
-            UserDetails userDetails = new UserDetails(email.getEditText().getText().toString(), password.getEditText().getText().toString());
-            sessionFacade.loginAndRegister(context, "LOGIN", this, userDetails);
+            if(email.getEditText().getText().toString().isEmpty() || password.getEditText().getText().toString().isEmpty()) {
+                Toast.makeText(context, "Please enter email and password!", Toast.LENGTH_LONG).show();
+            } else {
+                UserDetails userDetails = new UserDetails(email.getEditText().getText().toString(), password.getEditText().getText().toString());
+                sessionFacade.loginAndRegister(context, "LOGIN", this, userDetails);
+            }
         });
 
         register.setOnClickListener(view -> {

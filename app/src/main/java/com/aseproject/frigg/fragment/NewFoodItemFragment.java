@@ -187,12 +187,6 @@ public class NewFoodItemFragment extends Fragment implements FoodService.FoodSer
         });
 
         cancelNewItem.setOnClickListener((v) -> {
-//            RegisterFragment registerFragment = new RegisterFragment();
-//            FragmentManager fragmentManager = getFragmentManager();
-//            FragmentTransaction fragmentTransaction = fragmentManager
-//                    .beginTransaction();
-//            fragmentTransaction.replace(R.id.container, registerFragment).commit();
-
             Intent myIntent = new Intent(context, NavActivity.class);
             context.startActivity(myIntent);
         });
