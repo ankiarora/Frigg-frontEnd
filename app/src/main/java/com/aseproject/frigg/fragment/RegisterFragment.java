@@ -89,12 +89,19 @@ public class RegisterFragment extends Fragment implements AuthService.AuthServic
         });
 
         register.setOnClickListener(view -> {
-            String name = Objects.requireNonNull(nameET.getEditText()).getText().toString();
-            String email = Objects.requireNonNull(emailET.getEditText()).getText().toString();
-            String password = Objects.requireNonNull(passwordET.getEditText()).getText().toString();
-            String invite_code = Objects.requireNonNull(registration_code.getEditText()).getText().toString();
-            UserDetails userDetails = new UserDetails(email, password, name, invite_code);
-            sessionFacade.loginAndRegister(context, "REGISTER", this, userDetails);
+            if (nameET.getEditText().getText().toString().isEmpty()
+                    || emailET.getEditText().getText().toString().isEmpty()
+                    || passwordET.getEditText().getText().toString().isEmpty()) {
+                Toast.makeText(context, "Please fill all the details!", Toast.LENGTH_LONG).show();
+            } else {
+                String name = Objects.requireNonNull(nameET.getEditText()).getText().toString();
+                String email = Objects.requireNonNull(emailET.getEditText()).getText().toString();
+                String password = Objects.requireNonNull(passwordET.getEditText()).getText().toString();
+                String invite_code = Objects.requireNonNull(registration_code.getEditText()).getText().toString();
+                UserDetails userDetails = new UserDetails(email, password, name, invite_code);
+                sessionFacade.loginAndRegister(context, "REGISTER", this, userDetails);
+
+            }
         });
     }
 
