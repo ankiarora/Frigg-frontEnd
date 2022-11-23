@@ -310,12 +310,12 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         Calendar cal = Calendar.getInstance();
         Intent intent = new Intent(context, ExpiryService.class);
         PendingIntent pintent = PendingIntent
-                .getService(context, 0, intent, 0);
-
+                .getService(context, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
+                );
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         // Start service daily
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-                24 * 3600*1000, pintent);
+                3000, pintent);
     }
 
     private void startThresholdService() {
@@ -331,11 +331,12 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         Calendar cal = Calendar.getInstance();
         Intent intent = new Intent(context, ThresholdItemsService.class);
         PendingIntent pintent = PendingIntent
-                .getService(context, 0, intent, 0);
+                .getService(context, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
+                );
 
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         // Start service daily
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-                24 * 3600*1000, pintent);
+                3000, pintent);
     }
 }

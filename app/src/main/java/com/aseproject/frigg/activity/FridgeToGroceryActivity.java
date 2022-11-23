@@ -3,26 +3,21 @@ package com.aseproject.frigg.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.aseproject.frigg.R;
 import com.aseproject.frigg.fragment.DishRecipeFragment;
-import com.aseproject.frigg.fragment.FoodDetailFragment;
-import com.aseproject.frigg.model.FoodItem;
+import com.aseproject.frigg.fragment.FridgeToGroceryFragment;
 
-import java.io.Serializable;
-import java.util.List;
-
-public class DishRecipeActivity extends FriggActivity {
-
+public class FridgeToGroceryActivity extends FriggActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dish_recipe);
+        setContentView(R.layout.activity_fridge_to_grocery);
 
-        DishRecipeFragment dishRecipeFragment = new DishRecipeFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, dishRecipeFragment).commit();
+
+        FridgeToGroceryFragment fragment = new FridgeToGroceryFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
