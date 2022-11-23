@@ -8,17 +8,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
 import com.aseproject.frigg.R;
-import com.aseproject.frigg.activity.NavActivity;
+import com.aseproject.frigg.activity.DishRecipeActivity;
+import com.aseproject.frigg.activity.FridgeToGroceryActivity;
 import com.aseproject.frigg.model.FoodItem;
 import com.aseproject.frigg.service.FoodService;
 import com.aseproject.frigg.service.SessionFacade;
 import com.aseproject.frigg.util.BroadcastReceiverHelper;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,6 +35,7 @@ public class ThresholdItemsService extends IntentService implements FoodService.
     private List<FoodItem> items;
     private static final String TAG = "ThresholdItemsService";
     final String CHANNEL_ID_STR = "10023";
+    private List<FoodItem> filtered;
 
     public ThresholdItemsService() {
         super("ThresholdItemsService");
@@ -47,7 +51,7 @@ public class ThresholdItemsService extends IntentService implements FoodService.
     @Override
     public void notifyFetchSuccess(List<FoodItem> foodItems, String purpose) {
         this.items = foodItems;
-        List<FoodItem> filtered = new ArrayList<>();
+        filtered = new ArrayList<>();
         Log.d(TAG, "fetching success");
         for (FoodItem item : foodItems) {
             if (item.getQuantity() < 3) {
@@ -71,7 +75,8 @@ public class ThresholdItemsService extends IntentService implements FoodService.
     private void addNotification() {
         Intent actionIntent = new Intent(this, BroadcastReceiverHelper.class);
         actionIntent.setAction("threshold_items");
-        PendingIntent actionPendingIntent = PendingIntent.getBroadcast(this, 0, actionIntent, 0);
+        PendingIntent actionPendingIntent = PendingIntent.getBroadcast(this, 0, actionIntent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
+        );
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this, CHANNEL_ID_STR)
@@ -82,7 +87,8 @@ public class ThresholdItemsService extends IntentService implements FoodService.
                         .addAction(R.drawable.ic_launcher_background, "Generate Grocery List", actionPendingIntent);
 
         // intent to redirect to add multiple items to fridge list screen
-        Intent notificationIntent = new Intent(this, NavActivity.class);
+        Intent notificationIntent = new Intent(this, FridgeToGroceryActivity.class);
+        notificationIntent.putExtra("foodList", (Serializable) filtered);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
                 PendingIntent.FLAG_IMMUTABLE);
         builder.setContentIntent(contentIntent);

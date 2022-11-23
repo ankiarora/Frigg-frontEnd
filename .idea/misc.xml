@@ -11,6 +11,7 @@
         <entry key="../Frigg-frontEnd/app/src/main/res/layout/activity_dish_recipe.xml" value="0.11543394613082514" />
         <entry key="../Frigg-frontEnd/app/src/main/res/layout/activity_family_member.xml" value="0.2629328772979906" />
         <entry key="../Frigg-frontEnd/app/src/main/res/layout/activity_food_detail.xml" value="0.18906394810009267" />
+        <entry key="../Frigg-frontEnd/app/src/main/res/layout/activity_fridge_to_grocery.xml" value="0.2629328772979906" />
         <entry key="../Frigg-frontEnd/app/src/main/res/layout/activity_main.xml" value="0.20652173913043478" />
         <entry key="../Frigg-frontEnd/app/src/main/res/layout/activity_nav.xml" value="0.165" />
         <entry key="../Frigg-frontEnd/app/src/main/res/layout/activity_new_food_item.xml" value="0.2629328772979906" />
@@ -25,6 +26,7 @@
         <entry key="../Frigg-frontEnd/app/src/main/res/layout/fragment_family_memeber.xml" value="0.25138948268490807" />
         <entry key="../Frigg-frontEnd/app/src/main/res/layout/fragment_food_detail.xml" value="0.165" />
         <entry key="../Frigg-frontEnd/app/src/main/res/layout/fragment_fridge.xml" value="0.3234773055366848" />
+        <entry key="../Frigg-frontEnd/app/src/main/res/layout/fragment_fridge_to_grocery.xml" value="0.2569474134245404" />
         <entry key="../Frigg-frontEnd/app/src/main/res/layout/fragment_grocery.xml" value="0.165" />
         <entry key="../Frigg-frontEnd/app/src/main/res/layout/fragment_home.xml" value="0.1872103799814643" />
         <entry key="../Frigg-frontEnd/app/src/main/res/layout/fragment_loading_dialog.xml" value="0.25053441641727237" />
