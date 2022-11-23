@@ -10,6 +10,7 @@ public class UserDetails {
     private Integer fridge_id;
     private String message;
     private String full_name;
+    private Integer no_of_notifications;
 
     public UserDetails(String email, String password) {
         this.email = email;
@@ -21,6 +22,14 @@ public class UserDetails {
         this.password = password;
         this.full_name = name;
         this.invite_code = invite_code;
+    }
+
+    public Integer getNo_of_notifications() {
+        return no_of_notifications;
+    }
+
+    public void setNo_of_notifications(Integer no_of_notifications) {
+        this.no_of_notifications = no_of_notifications;
     }
 
     public String getEmail() {

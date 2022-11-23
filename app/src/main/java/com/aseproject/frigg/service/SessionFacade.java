@@ -50,4 +50,12 @@ public class SessionFacade {
     public void getConnectedFamilyMembers(Context context, FamilyMembersService.FamilyMemberListener listener, String purpose) {
         FamilyMembersService.getInstance().getConnectedFamilyMembers(context, listener, purpose);
     }
+
+    public void getPreferences(Context context, String purpose, PreferencesService.PreferencesServiceGetListener listener, Integer userId) {
+        PreferencesService.getInstance().getPreferences(context, purpose, listener, userId);
+    }
+
+    public void setPreferences(Context context, String purpose, PreferencesService.PreferencesServicePostListener listener, Integer userId, Integer noOfNotifications) {
+        PreferencesService.getInstance().setPreferences(context, purpose, listener, userId, noOfNotifications);
+    }
 }

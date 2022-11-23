@@ -8,6 +8,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +56,11 @@ public class MoreFragment extends Fragment {
 
     private void setOnClickListeners() {
         tvSetPreference.setOnClickListener(view -> {
-
+            PreferencesFragment fragment = new PreferencesFragment();
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager
+                    .beginTransaction();
+            fragmentTransaction.replace(R.id.container, fragment).commit();
         });
 
         tvProfile.setOnClickListener(view -> {
