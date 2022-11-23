@@ -60,4 +60,9 @@ public class NavActivity extends FriggActivity {
                     return true;
                 });
     }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+    }
 }
