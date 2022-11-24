@@ -17,6 +17,7 @@ public class AppSessionManager {
     private String inviteCode;
     private String name;
     private String email;
+    private int userId;
 
     //Private constructor
     private AppSessionManager() {
@@ -31,6 +32,14 @@ public class AppSessionManager {
             if (mInstance == null) mInstance = new AppSessionManager();
         }
         return mInstance;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getFridgeId() {

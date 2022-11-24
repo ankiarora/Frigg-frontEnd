@@ -59,4 +59,6 @@
     <string name="invite_code">Invite-code</string>
     <string name="user_name">UserName</string>
     <string name="user_email">User_Email</string>
+    <string name="user_id">User_Id</string>
+
 </resources>
