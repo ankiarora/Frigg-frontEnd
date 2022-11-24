@@ -15,6 +15,8 @@ public class AppSessionManager {
     private List<FoodItem> fridgeItems = new ArrayList<>();
     private int fridgeId;
     private String inviteCode;
+    private String name;
+    private String email;
 
     //Private constructor
     private AppSessionManager() {
@@ -45,6 +47,22 @@ public class AppSessionManager {
 
     public void setInviteCode(String inviteCode) {
         this.inviteCode = inviteCode;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<FoodItem> getGroceries() {

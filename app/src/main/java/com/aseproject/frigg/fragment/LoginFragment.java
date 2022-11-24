@@ -40,6 +40,8 @@ public class LoginFragment extends Fragment implements AuthService.AuthServicePo
     SharedPreferences prefs;
     int fridgeId = 0;
     private String inviteCode;
+    private String userName;
+    private String userEmail;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -81,8 +83,12 @@ public class LoginFragment extends Fragment implements AuthService.AuthServicePo
         prefs = context.getSharedPreferences(getString(R.string.fridge_id), Context.MODE_PRIVATE);
         fridgeId = prefs.getInt(getString(R.string.fridge_id), -1);
         inviteCode = prefs.getString(getString(R.string.invite_code), "");
+        userName = prefs.getString(getString(R.string.user_name), "");
+        userEmail = prefs.getString(getString(R.string.user_email), "");
         AppSessionManager.getInstance().setFridgeId(fridgeId);
         AppSessionManager.getInstance().setInviteCode(inviteCode);
+        AppSessionManager.getInstance().setName(userName);
+        AppSessionManager.getInstance().setEmail(userEmail);
 
         if (fridgeId != -1) {
             Intent myIntent = new Intent(context, NavActivity.class);
@@ -113,8 +119,12 @@ public class LoginFragment extends Fragment implements AuthService.AuthServicePo
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(getString(R.string.fridge_id), details.getFridge_id());
         editor.putString(getString(R.string.invite_code), details.getInviteCode());
+        editor.putString(getString(R.string.user_name), details.getFull_name());
+        editor.putString(getString(R.string.user_email), details.getEmail());
         AppSessionManager.getInstance().setInviteCode(details.getInviteCode());
         AppSessionManager.getInstance().setFridgeId(details.getFridge_id());
+        AppSessionManager.getInstance().setEmail(details.getEmail());
+        AppSessionManager.getInstance().setName(details.getFull_name());
         editor.apply();
         Intent myIntent = new Intent(context, NavActivity.class);
         context.startActivity(myIntent);
