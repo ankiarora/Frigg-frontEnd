@@ -20,6 +20,7 @@ import com.aseproject.frigg.R;
 import com.aseproject.frigg.activity.AuthActivity;
 import com.aseproject.frigg.activity.FamilyMemberActivity;
 import com.aseproject.frigg.activity.NavActivity;
+import com.aseproject.frigg.activity.ProfileActivity;
 
 
 public class MoreFragment extends Fragment {
@@ -64,7 +65,8 @@ public class MoreFragment extends Fragment {
         });
 
         tvProfile.setOnClickListener(view -> {
-
+            Intent intent = new Intent(context, ProfileActivity.class);
+            startActivity(intent);
         });
 
         tvSignout.setOnClickListener(view -> {

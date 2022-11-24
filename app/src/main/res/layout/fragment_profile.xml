@@ -9,17 +9,21 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:src="@drawable/frigg"/>
+        android:layout_height="200dp"
+        android:src="@drawable/app_icon"/>
 
     <TextView
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:text="NAME"/>
 
     <TextView
+        android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:text="EMAIL"/>
 
 </LinearLayout>
