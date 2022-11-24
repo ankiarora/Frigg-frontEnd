@@ -25,10 +25,12 @@
         tools:targetApi="31">
         <activity
             android:name=".activity.ProfileActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.FridgeToGroceryActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".backgroundService.ExpiryService"
@@ -39,14 +41,17 @@
 
         <activity
             android:name=".activity.FamilyMemberActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.DishRecipeActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_dish_recipe" />
         <activity
             android:name=".activity.SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,26 +60,33 @@
         </activity>
         <activity
             android:name=".activity.AuthActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.CameraActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.NewFoodItemActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_new_food_item" />
         <activity
             android:name=".activity.FoodDetailActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.FriggActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.VoiceRecognitionActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.NavActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name=".util.BroadcastReceiverHelper"

@@ -315,7 +315,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         // Start service daily
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-                3000, pintent);
+                24 * 3600 * 1000, pintent);
     }
 
     private void startThresholdService() {
@@ -337,6 +337,6 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         // Start service daily
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-                3000, pintent);
+                24 * 3600 * 1000, pintent);
     }
 }
