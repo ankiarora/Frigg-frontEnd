@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.aseproject.frigg.R;
 import com.aseproject.frigg.activity.NavActivity;
+import com.aseproject.frigg.common.AppSessionManager;
 import com.aseproject.frigg.model.UserDetails;
 import com.aseproject.frigg.service.PreferencesService;
 import com.aseproject.frigg.service.SessionFacade;
@@ -40,6 +41,8 @@ public class PreferencesFragment extends Fragment implements PreferencesService.
     private LinearLayout saveButton;
     private TextInputLayout noOfNotificationsET;
 
+    private int userId;
+
     public PreferencesFragment() {
     }
 
@@ -53,7 +56,8 @@ public class PreferencesFragment extends Fragment implements PreferencesService.
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         sessionFacade = new SessionFacade();
-        sessionFacade.getPreferences(context, GET_PREFERENCES_PURPOSE, this, 29);
+        userId = AppSessionManager.getInstance().getUserId();
+        sessionFacade.getPreferences(context, GET_PREFERENCES_PURPOSE, this, userId);
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_preferences, container, false);
@@ -69,7 +73,7 @@ public class PreferencesFragment extends Fragment implements PreferencesService.
 
         saveButton.setOnClickListener((v) -> {
             int noOfNotifications = Integer.parseInt(noOfNotificationsET.getEditText().getText().toString());
-            sessionFacade.setPreferences(context, SET_PREFERENCES_PURPOSE, this, 29, noOfNotifications);
+            sessionFacade.setPreferences(context, SET_PREFERENCES_PURPOSE, this, userId, noOfNotifications);
         });
     }
 

@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 
 public class PreferencesService implements GetListener, PostListener {
 
-    private static final String TAG = AuthService.class.getSimpleName();
     private PreferencesServicePostListener postListener;
     private PreferencesServiceGetListener getListener;
     private Context context;

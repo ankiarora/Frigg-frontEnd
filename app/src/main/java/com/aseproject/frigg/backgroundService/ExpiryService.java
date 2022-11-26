@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,9 +20,11 @@ import com.aseproject.frigg.service.FoodService;
 import com.aseproject.frigg.service.SessionFacade;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +36,7 @@ public class ExpiryService extends IntentService implements FoodService.FoodServ
     private List<FoodItem> items;
     private static final String TAG = "ExpiryService";
     final String CHANNEL_ID_STR = "10021";
+    private SharedPreferences prefs;
 
     public ExpiryService() {
         super("ExpiryService");
@@ -86,6 +90,14 @@ public class ExpiryService extends IntentService implements FoodService.FoodServ
      * Create Notification
      */
     private void addNotification(List<FoodItem> filtered) {
+        try {
+            if (isLimitReached()) {
+                return;
+            }
+            addNotificationCount();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this, CHANNEL_ID_STR)
                         .setSmallIcon(R.drawable.fridge_icon)
@@ -124,5 +136,44 @@ public class ExpiryService extends IntentService implements FoodService.FoodServ
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    private void addNotificationCount() throws ParseException {
+        prefs = context.getSharedPreferences(getString(R.string.fridge_id), Context.MODE_PRIVATE);
+        int count = prefs.getInt("notification-count", 0);
+        Date current = Calendar.getInstance().getTime();
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String currentTime = df.format(current);
+        String time = prefs.getString("notification-time", currentTime);
+        Log.d(TAG, count + ":: " + currentTime);
+        Date time1 = df.parse(currentTime);
+        Date time2 = df.parse(time);
+        if (time2.before(time1)){
+            count = 0;
+        }
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("notification-count", count + 1);
+        editor.putString("notification-time", currentTime);
+        editor.apply();
+    }
+
+    private boolean isLimitReached() throws ParseException {
+        prefs = context.getSharedPreferences(getString(R.string.fridge_id), Context.MODE_PRIVATE);
+        int count = prefs.getInt("notification-count", 0);
+        Date current = Calendar.getInstance().getTime();
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String currentTime = df.format(current);
+        String time = prefs.getString("notification-time", currentTime);
+        Log.d(TAG, count + ":: " + time + ":: " + current.toString());
+        Date time1 = df.parse(currentTime);
+        Date time2 = df.parse(time);
+        if (time1.equals(time2)) {
+            if (count <= 10)
+                return false;
+            return true;
+        } else if (time2.before(time1)){
+            return false;
+        }
+        return true;
     }
 }
