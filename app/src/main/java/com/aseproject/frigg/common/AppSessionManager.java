@@ -17,7 +17,7 @@ public class AppSessionManager {
     private String inviteCode;
     private String name;
     private String email;
-    private int userId;
+    private Integer user_id;
 
     //Private constructor
     private AppSessionManager() {
@@ -34,14 +34,6 @@ public class AppSessionManager {
         return mInstance;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public int getFridgeId() {
         return fridgeId;
     }
@@ -49,6 +41,7 @@ public class AppSessionManager {
     public String getInviteCode() {
         return inviteCode;
     }
+
 
     public void setFridgeId(int fridgeId) {
         this.fridgeId = fridgeId;
@@ -74,6 +67,10 @@ public class AppSessionManager {
         this.name = name;
     }
 
+    public Integer getUser_id() {
+        return user_id;
+    }
+
     public List<FoodItem> getGroceries() {
         return groceries;
     }
@@ -88,5 +85,9 @@ public class AppSessionManager {
 
     public void setGroceries(List<FoodItem> groceries) {
         this.groceries = groceries;
+    }
+
+    public void setUser_id(Integer userId) {
+        this.user_id = userId;
     }
 }

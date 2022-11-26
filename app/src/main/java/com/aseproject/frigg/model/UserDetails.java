@@ -10,8 +10,8 @@ public class UserDetails {
     private Integer fridge_id;
     private String message;
     private String full_name;
-    private Integer user_id;
     private Integer no_of_notifications;
+    private Integer user_id;
 
     public UserDetails(String email, String password) {
         this.email = email;
@@ -35,10 +35,6 @@ public class UserDetails {
 
     public Integer getUser_id() {
         return user_id;
-    }
-
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
     }
 
     public String getEmail() {

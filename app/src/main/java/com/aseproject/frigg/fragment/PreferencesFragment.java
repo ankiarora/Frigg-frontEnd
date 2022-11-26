@@ -56,7 +56,7 @@ public class PreferencesFragment extends Fragment implements PreferencesService.
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         sessionFacade = new SessionFacade();
-        userId = AppSessionManager.getInstance().getUserId();
+        userId = AppSessionManager.getInstance().getUser_id();
         sessionFacade.getPreferences(context, GET_PREFERENCES_PURPOSE, this, userId);
 
         // Inflate the layout for this fragment

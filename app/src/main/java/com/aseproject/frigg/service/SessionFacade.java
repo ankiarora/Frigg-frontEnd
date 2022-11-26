@@ -3,6 +3,7 @@ package com.aseproject.frigg.service;
 import android.content.Context;
 
 import com.aseproject.frigg.common.AppSessionManager;
+import com.aseproject.frigg.fragment.ProfileFragment;
 import com.aseproject.frigg.fragment.RecommendFragment;
 import com.aseproject.frigg.model.FoodItem;
 import com.aseproject.frigg.model.UserDetails;
@@ -57,5 +58,13 @@ public class SessionFacade {
 
     public void setPreferences(Context context, String purpose, PreferencesService.PreferencesServicePostListener listener, Integer userId, Integer noOfNotifications) {
         PreferencesService.getInstance().setPreferences(context, purpose, listener, userId, noOfNotifications);
+    }
+
+    public void connectToFamily(Context context, String purpose, FamilyMembersService.FamilyMemberPostListener listener, String body) {
+        FamilyMembersService.getInstance().connectToFamily(context, purpose, listener, body);
+    }
+
+    public void changePassword(Context context, String body, FamilyMembersService.FamilyMemberPostListener listener, String purpose) {
+        FamilyMembersService.getInstance().changePassword(context, purpose, listener, body);
     }
 }

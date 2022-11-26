@@ -42,7 +42,7 @@ public class LoginFragment extends Fragment implements AuthService.AuthServicePo
     private String inviteCode;
     private String userName;
     private String userEmail;
-    private int userId;
+    private Integer userId;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -91,7 +91,7 @@ public class LoginFragment extends Fragment implements AuthService.AuthServicePo
         AppSessionManager.getInstance().setInviteCode(inviteCode);
         AppSessionManager.getInstance().setName(userName);
         AppSessionManager.getInstance().setEmail(userEmail);
-        AppSessionManager.getInstance().setUserId(userId);
+        AppSessionManager.getInstance().setUser_id(userId);
 
         if (fridgeId != -1) {
             Intent myIntent = new Intent(context, NavActivity.class);
@@ -129,7 +129,7 @@ public class LoginFragment extends Fragment implements AuthService.AuthServicePo
         AppSessionManager.getInstance().setFridgeId(details.getFridge_id());
         AppSessionManager.getInstance().setEmail(details.getEmail());
         AppSessionManager.getInstance().setName(details.getFull_name());
-        AppSessionManager.getInstance().setUserId(details.getUser_id());
+        AppSessionManager.getInstance().setUser_id(details.getUser_id());
         editor.apply();
         Intent myIntent = new Intent(context, NavActivity.class);
         context.startActivity(myIntent);

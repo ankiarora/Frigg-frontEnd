@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -59,7 +60,9 @@ public class HomeFragment extends Fragment implements FoodService.FoodServicePos
     private LinearLayout saveNewItem;
     private SessionFacade sessionFacade;
     private static String ADD_FOOD_ITEM = "ADD_FOOD_ITEM";
-    private TextView tvScanReceipt;
+    private Button btnAddItem;
+    private Button btn_scan;
+    private LinearLayout llAddItem;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -87,7 +90,10 @@ public class HomeFragment extends Fragment implements FoodService.FoodServicePos
         cbFridgeList = view.findViewById(R.id.cbFridgeList);
         cbGroceryList = view.findViewById(R.id.cbGroceryList);
         saveNewItem = view.findViewById(R.id.saveNewItem);
-        tvScanReceipt = view.findViewById(R.id.tvScanReceipt);
+        btn_scan = view.findViewById(R.id.btn_scan);
+        btnAddItem = view.findViewById(R.id.btnAddItem);
+        llAddItem = view.findViewById(R.id.llAddItem);
+
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context);
 
         ivMicBtn.setOnClickListener(view1 -> {
@@ -98,8 +104,14 @@ public class HomeFragment extends Fragment implements FoodService.FoodServicePos
             }
         });
 
-        tvScanReceipt.setPaintFlags(tvScanReceipt.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        tvScanReceipt.setOnClickListener(view12 -> {
+        btnAddItem.setOnClickListener(view1 -> {
+            if(llAddItem.getVisibility() == View.VISIBLE)
+                llAddItem.setVisibility(View.GONE);
+            else
+                llAddItem.setVisibility(View.VISIBLE);
+        });
+
+        btn_scan.setOnClickListener(view12 -> {
             Intent intent = new Intent(context, CameraActivity.class);
             startActivity(intent);
         });
@@ -131,8 +143,7 @@ public class HomeFragment extends Fragment implements FoodService.FoodServicePos
         String itemName = etFoodItem.getText().toString();
         String quantity = etFoodQuantity.getText().toString();
         boolean type = cbFridgeList.isChecked() || cbGroceryList.isChecked();
-        if (itemName == null || itemName.isEmpty() || quantity == null || quantity.isEmpty()
-                || !type)
+        if (itemName.isEmpty() || quantity.isEmpty() || !type)
             return true;
         return false;
     }

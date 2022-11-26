@@ -58,6 +58,9 @@ public class CameraActivity extends FriggActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+
+        setTitle("Scan the Receipt");
+
         camera = findViewById(R.id.camera_button);
         gallery = findViewById(R.id.gallery_button);
 
@@ -77,6 +80,16 @@ public class CameraActivity extends FriggActivity {
             intentGalley.setType("image/*");
             startActivityForResult(intentGalley, GALLERY_RESULT_CODE);
         });
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override
