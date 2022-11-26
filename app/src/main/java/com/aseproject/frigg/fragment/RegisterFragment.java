@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.aseproject.frigg.R;
+import com.aseproject.frigg.activity.AuthActivity;
 import com.aseproject.frigg.activity.NavActivity;
 import com.aseproject.frigg.model.UserDetails;
 import com.aseproject.frigg.service.AuthService;
@@ -101,7 +102,7 @@ public class RegisterFragment extends Fragment implements AuthService.AuthServic
     @Override
     public void notifyPostSuccess(String response, String purpose) {
         Log.d(TAG, response);
-        Intent myIntent = new Intent(context, LoginFragment.class);
+        Intent myIntent = new Intent(context, AuthActivity.class);
         context.startActivity(myIntent);
     }
 

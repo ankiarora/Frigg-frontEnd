@@ -47,6 +47,7 @@ public class MoreFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ((NavActivity) context).setTitle("More");
         tvSetPreference = view.findViewById(R.id.tvSetPreference);
         tvAddFamilyMembers = view.findViewById(R.id.tvAddFamilyMembers);
         tvProfile = view.findViewById(R.id.tvProfile);

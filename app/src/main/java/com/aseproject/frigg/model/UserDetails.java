@@ -11,6 +11,7 @@ public class UserDetails {
     private String message;
     private String full_name;
     private Integer no_of_notifications;
+    private Integer user_id;
 
     public UserDetails(String email, String password) {
         this.email = email;
@@ -30,6 +31,10 @@ public class UserDetails {
 
     public void setNo_of_notifications(Integer no_of_notifications) {
         this.no_of_notifications = no_of_notifications;
+    }
+
+    public Integer getUser_id() {
+        return user_id;
     }
 
     public String getEmail() {

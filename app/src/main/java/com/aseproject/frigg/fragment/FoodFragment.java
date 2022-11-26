@@ -9,13 +9,17 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Canvas;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.speech.SpeechRecognizer;
@@ -41,10 +45,13 @@ import com.aseproject.frigg.common.FriggRecyclerView;
 import com.aseproject.frigg.model.FoodItem;
 import com.aseproject.frigg.service.FoodService;
 import com.aseproject.frigg.service.SessionFacade;
+import com.aseproject.frigg.util.Constants;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class FoodFragment extends Fragment implements FoodService.FoodServiceGetListener, FoodService.FoodServicePostListener, FoodAdapter.GroceryHolderListener, CommonDialogFragment.DialogInterface {
 
@@ -59,6 +66,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
     private static final String GET_FRIDGE_PURPOSE = "GET_FRIDGE_PURPOSE";
     private static final String SET_GROCERIES_PURPOSE = "SET_GROCERIES_PURPOSE";
     private static final String SET_FRIDGE_PURPOSE = "SET_FRIDGE_PURPOSE";
+    private static String ADD_FOOD_ITEM = "ADD_FOOD_ITEM";
     private FoodAdapter foodAdapter;
     private ImageView ivEditItems;
     private LinearLayout btnSaveEditedItems;
@@ -118,9 +126,9 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
     private void handleButtonActions() {
         ivEditItems.setOnClickListener(view -> {
             if (isFridge()) {
-                updateUI(AppSessionManager.getInstance().getFridgeList(), true);
+                updateUI(fridgeItems, true);
             } else {
-                updateUI(AppSessionManager.getInstance().getGroceries(), true);
+                updateUI(groceries, true);
             }
             btnSaveEditedItems.setVisibility(View.VISIBLE);
         });
@@ -139,6 +147,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
     private void setItems() {
         if (isFridge()) {
             ((NavActivity) context).showActivityIndicator(context.getString(R.string.saving_data));
+            AppSessionManager.getInstance().setFridgeItems(fridgeItems);
             sessionFacade.setFridgeList(context, SET_FRIDGE_PURPOSE, this, fridgeItems);
         } else {
             ((NavActivity) context).showActivityIndicator(context.getString(R.string.saving_data));
@@ -165,11 +174,6 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
 
     // Swipe Refresh Layout
     private void refreshItems() {
-        if (isFridge())
-            AppSessionManager.getInstance().getFridgeList().clear();
-        else
-            AppSessionManager.getInstance().getGroceries().clear();
-
         downloadItems(getString(R.string.fetching_data));
         onRefreshItemsLoadComplete();
         btnSaveEditedItems.setVisibility(View.GONE);
@@ -209,10 +213,21 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         groceriesRecyclerView.setEmptyView(mEmptyView);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context, layoutManager.getOrientation());
         groceriesRecyclerView.addItemDecoration(dividerItemDecoration);
+
+        if (isFridge()) {
+            test();
+        }
     }
 
     private void updateUI(List<FoodItem> foodItems, boolean enableEditMode) {
-        foodAdapter = new FoodAdapter((NavActivity)context, type, foodItems, enableEditMode, this);
+        if (isFridge()) {
+            fridgeItems = foodItems;
+            foodAdapter = new FoodAdapter((NavActivity) context, type, fridgeItems, enableEditMode, this);
+        } else {
+            groceries = foodItems;
+            foodAdapter = new FoodAdapter((NavActivity) context, type, groceries, enableEditMode, this);
+        }
+
         groceriesRecyclerView.setAdapter(foodAdapter);
 
         groceriesRecyclerView.getRecycledViewPool().clear();
@@ -248,9 +263,11 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
     public void notifyPostSuccess(String response, String purpose) {
         ((NavActivity) context).hideActivityIndicator();
         if (purpose.equals(SET_FRIDGE_PURPOSE)) {
-            updateUI(AppSessionManager.getInstance().getFridgeList(), false);
+            updateUI(fridgeItems, false);
+        } else if(purpose.equals(SET_GROCERIES_PURPOSE)){
+            updateUI(groceries, false);
         } else {
-            updateUI(AppSessionManager.getInstance().getGroceries(), false);
+            Toast.makeText(context, "Added to Grocery List", Toast.LENGTH_LONG).show();
         }
         btnSaveEditedItems.setVisibility(View.GONE);
     }
@@ -315,7 +332,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         // Start service daily
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-                3000, pintent);
+                3*60*1000, pintent);
     }
 
     private void startThresholdService() {
@@ -337,6 +354,62 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         // Start service daily
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-                3000, pintent);
+                3*60*1000, pintent);
+    }
+
+
+    private void test() {
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int pos = viewHolder.getAdapterPosition();
+                switch (direction) {
+                    case ItemTouchHelper.RIGHT:
+                        FoodItem foodItem = new FoodItem();
+                        ((NavActivity) context).showActivityIndicator(context.getString(R.string.saving_data));
+                        foodItem.setFood_item_name(fridgeItems.get(pos).getItemName());
+                        foodItem.setQuantity(fridgeItems.get(pos).getQuantity());
+                        String url = Constants.BASE_URL + "GroceryList/AddFoodItemByName/" + AppSessionManager.getInstance().getFridgeId();
+                        sessionFacade.addItem(context, foodItem, url, ADD_FOOD_ITEM, FoodFragment.this);
+                        groceriesRecyclerView.getAdapter().notifyDataSetChanged();
+                        break;
+                    case ItemTouchHelper.LEFT:
+                        fridgeItems.remove(pos);
+                        groceriesRecyclerView.getAdapter().notifyDataSetChanged();
+                        setItems();
+                        //add to grocery
+                        break;
+                }
+            }
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        .addSwipeLeftActionIcon(R.drawable.delete)
+                        .setSwipeLeftActionIconTint(R.color.black)
+                        .addSwipeLeftLabel("Delete item")
+                        .setSwipeLeftLabelColor(getResources().getColor(R.color.black))
+                        .addSwipeLeftBackgroundColor(getResources().getColor(R.color.red))
+
+
+                        .addSwipeRightBackgroundColor(getResources().getColor(R.color.gray))
+                        .addSwipeRightActionIcon(R.drawable.food_icon)
+                        .setSwipeRightActionIconTint(R.color.black)
+                        .addSwipeRightLabel("Add to Grocery")
+                        .setSwipeRightLabelColor(getResources().getColor(R.color.black))
+                        .create()
+                        .decorate();
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+        }
+
+        );
+        helper.attachToRecyclerView(groceriesRecyclerView);
+
     }
 }

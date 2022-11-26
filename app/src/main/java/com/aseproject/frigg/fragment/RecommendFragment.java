@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.aseproject.frigg.R;
@@ -51,6 +52,7 @@ public class RecommendFragment extends Fragment implements RecommendService.Reco
     private TextView item_2;
     private TextView item_3;
     private TextView item_4;
+    private ScrollView svRecommended;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -74,6 +76,7 @@ public class RecommendFragment extends Fragment implements RecommendService.Reco
         mEmptyView = view.findViewById(R.id.groceries_empty_view);
         recommendedDishList = view.findViewById(R.id.recommendedDishList);
         llRecommendItems = view.findViewById(R.id.llRecommendItems);
+        svRecommended = view.findViewById(R.id.svRecommended);
         item_1 = view.findViewById(R.id.item_1);
         item_2 = view.findViewById(R.id.item_2);
         item_3 = view.findViewById(R.id.item_3);
@@ -169,6 +172,11 @@ public class RecommendFragment extends Fragment implements RecommendService.Reco
             updateUI((String[]) obj);
 //            recommendedDishList.setVisibility(View.GONE);
         } else {
+            if(((String[])obj).length == 0) {
+                svRecommended.setVisibility(View.GONE);
+            } else {
+                svRecommended.setVisibility(View.VISIBLE);
+            }
             updateRecommendUI((String[])obj);
         }
     }

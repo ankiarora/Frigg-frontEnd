@@ -1,52 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:fillViewport="true"
     android:layout_height="match_parent">
 
-    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp"
+        android:gravity="center"
         tools:context=".fragment.HomeFragment">
 
-
         <ImageView
-            android:id="@+id/ivMicBtn"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/mic_off_icon"
-            app:tint="@color/teal" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:text="Hold the mic button and speak with the following formats:"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/grocery_icon"/>
 
-        <TextView
+        <Button
+            android:id="@+id/btn_scan"
+            android:text="SCAN THE RECEIPT"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btnAddItem"
+            android:text="ADD ITEM"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"/>
+
+
+        <LinearLayout
+            android:id="@+id/llAddItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="8dp"
-            android:text="(Add 5 Apples to Grocery List)"
-            android:textSize="16sp" />
-
-        <TextView
+            android:orientation="vertical"
+            android:visibility="gone">
+            <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:text="(Add 6 Oranges to Fridge List)"
-            android:textSize="16sp" />
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:text="Hold the mic button and speak with the following formats:"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="@color/black"
+                    android:text="(Add 5 Apples to Grocery List)"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="186dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="OR"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:textColor="@color/black"
+                    android:text="(Add 6 Oranges to Fridge List)"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/ivMicBtn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/mic_off_icon"
+                app:tint="@color/teal" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,6 +114,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -133,16 +189,8 @@
                 android:id="@+id/saveNewItem"
                 layout="@layout/button_ui" />
 
-            <TextView
-                android:id="@+id/tvScanReceipt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:text="Scan the receipt"
-                android:textSize="18sp"
-                android:textStyle="bold" />
         </LinearLayout>
 
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

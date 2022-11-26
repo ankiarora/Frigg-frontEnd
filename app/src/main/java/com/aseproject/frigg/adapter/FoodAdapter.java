@@ -84,7 +84,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
         private TextView tvExpiryDate;
         private LinearLayout llExpiryDate;
         private LinearLayout llFoodItem;
-        private ImageView ivItemImage;
+//        private ImageView ivItemImage;
         private LinearLayout llAddSubtract;
         private TextView tvFoodCountCrack;
         private ImageView ivSubtractItem;
@@ -99,7 +99,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
 
             llFoodItem = itemView.findViewById(R.id.ll_food_item);
             tvItemName = itemView.findViewById(R.id.foodItemName);
-            ivItemImage = itemView.findViewById(R.id.iv_item_image);
+//            ivItemImage = itemView.findViewById(R.id.iv_item_image);
             tvItemAmount = itemView.findViewById(R.id.foodAmt);
             ivSubtractItem = itemView.findViewById(R.id.subtract_item);
             ivAddItem = itemView.findViewById(R.id.add_item);
@@ -130,7 +130,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
                     llAddSubtract.setVisibility(View.GONE);
                 }
             } else {
-                ivItemImage.setVisibility(View.VISIBLE);
+//                ivItemImage.setVisibility(View.VISIBLE);
                 if (enableEditMode) {
                     llAddSubtract.setVisibility(View.VISIBLE);
                 }
@@ -166,21 +166,21 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder>
                 listener.setGroceryList(foodList);
             });
 
-            ExecutorService executor = Executors.newSingleThreadExecutor();
-            Handler handler = new Handler();
-            executor.execute(() -> {
-                try {
-                    String imageURL = context.getString(R.string.image_url, foodItem.getItemName().toLowerCase());
-                    InputStream inputStream = new URL(imageURL).openStream();
-                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-
-
-                    // Only for making changes in UI
-                    handler.post(() -> ivItemImage.setImageBitmap(bitmap));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
+//            ExecutorService executor = Executors.newSingleThreadExecutor();
+//            Handler handler = new Handler();
+//            executor.execute(() -> {
+//                try {
+//                    String imageURL = context.getString(R.string.image_url, foodItem.getItemName().toLowerCase());
+//                    InputStream inputStream = new URL(imageURL).openStream();
+//                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+//
+//
+//                    // Only for making changes in UI
+//                    handler.post(() -> ivItemImage.setImageBitmap(bitmap));
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            });
 
             ivSubtractItem.setOnClickListener(view -> {
                 int qty = foodItem.getQuantity();

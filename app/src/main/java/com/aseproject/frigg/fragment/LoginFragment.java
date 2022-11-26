@@ -42,6 +42,7 @@ public class LoginFragment extends Fragment implements AuthService.AuthServicePo
     private String inviteCode;
     private String userName;
     private String userEmail;
+    private Integer userId;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -85,10 +86,12 @@ public class LoginFragment extends Fragment implements AuthService.AuthServicePo
         inviteCode = prefs.getString(getString(R.string.invite_code), "");
         userName = prefs.getString(getString(R.string.user_name), "");
         userEmail = prefs.getString(getString(R.string.user_email), "");
+        userId = prefs.getInt(getString(R.string.user_id), -1);
         AppSessionManager.getInstance().setFridgeId(fridgeId);
         AppSessionManager.getInstance().setInviteCode(inviteCode);
         AppSessionManager.getInstance().setName(userName);
         AppSessionManager.getInstance().setEmail(userEmail);
+        AppSessionManager.getInstance().setUser_id(userId);
 
         if (fridgeId != -1) {
             Intent myIntent = new Intent(context, NavActivity.class);
@@ -121,10 +124,12 @@ public class LoginFragment extends Fragment implements AuthService.AuthServicePo
         editor.putString(getString(R.string.invite_code), details.getInviteCode());
         editor.putString(getString(R.string.user_name), details.getFull_name());
         editor.putString(getString(R.string.user_email), details.getEmail());
+        editor.putInt(getString(R.string.user_id), details.getUser_id());
         AppSessionManager.getInstance().setInviteCode(details.getInviteCode());
         AppSessionManager.getInstance().setFridgeId(details.getFridge_id());
         AppSessionManager.getInstance().setEmail(details.getEmail());
         AppSessionManager.getInstance().setName(details.getFull_name());
+        AppSessionManager.getInstance().setUser_id(details.getUser_id());
         editor.apply();
         Intent myIntent = new Intent(context, NavActivity.class);
         context.startActivity(myIntent);

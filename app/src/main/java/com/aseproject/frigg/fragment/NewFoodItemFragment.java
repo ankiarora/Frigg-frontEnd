@@ -68,11 +68,10 @@ public class NewFoodItemFragment extends Fragment implements FoodService.FoodSer
     private AppCompatEditText etFoodExpiry;
     Calendar purchaseCalendar = Calendar.getInstance();
     Calendar expiryCalendar = Calendar.getInstance();
-    private LinearLayout saveNewItem;
-    private TextView tvAddButton;
+    private Button saveNewItem;
     private SessionFacade sessionFacade;
     private static String ADD_FOOD_ITEM = "ADD_FOOD_ITEM";
-    private LinearLayout cancelNewItem;
+    private Button cancelNewItem;
 
     public NewFoodItemFragment(String type) {
         this.type = type;
@@ -105,7 +104,6 @@ public class NewFoodItemFragment extends Fragment implements FoodService.FoodSer
         etFoodPurchase = view.findViewById(R.id.etFoodPurchase);
         etFoodExpiry = view.findViewById(R.id.etFoodExpiry);
         saveNewItem = view.findViewById(R.id.saveNewItem);
-        tvAddButton = saveNewItem.findViewById(R.id.btn_text);
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context);
         cancelNewItem = view.findViewById(R.id.cancelNewItem);
 
@@ -125,8 +123,6 @@ public class NewFoodItemFragment extends Fragment implements FoodService.FoodSer
         if (isFridge()) {
             llFridgeItem.setVisibility(View.VISIBLE);
         }
-
-        tvAddButton.setText("ADD ITEM");
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, yyyy");
         etFoodPurchase.setText(sdf.format(new Date()));

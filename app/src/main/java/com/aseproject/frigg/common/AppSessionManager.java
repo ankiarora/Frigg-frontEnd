@@ -17,6 +17,7 @@ public class AppSessionManager {
     private String inviteCode;
     private String name;
     private String email;
+    private Integer user_id;
 
     //Private constructor
     private AppSessionManager() {
@@ -41,6 +42,7 @@ public class AppSessionManager {
         return inviteCode;
     }
 
+
     public void setFridgeId(int fridgeId) {
         this.fridgeId = fridgeId;
     }
@@ -63,6 +65,14 @@ public class AppSessionManager {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
+    }
+
+    public Integer getUser_id() {
+        return user_id;
     }
 
     public List<FoodItem> getGroceries() {
