@@ -67,10 +67,6 @@ public class AppSessionManager {
         this.name = name;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
-    }
-
     public Integer getUser_id() {
         return user_id;
     }
@@ -89,5 +85,9 @@ public class AppSessionManager {
 
     public void setGroceries(List<FoodItem> groceries) {
         this.groceries = groceries;
+    }
+
+    public void setUser_id(Integer userId) {
+        this.user_id = userId;
     }
 }
