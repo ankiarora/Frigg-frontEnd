@@ -20,6 +20,7 @@ import com.aseproject.frigg.R;
 import com.aseproject.frigg.activity.AuthActivity;
 import com.aseproject.frigg.activity.FamilyMemberActivity;
 import com.aseproject.frigg.activity.NavActivity;
+import com.aseproject.frigg.activity.PreferencesActivity;
 import com.aseproject.frigg.activity.ProfileActivity;
 
 
@@ -58,11 +59,8 @@ public class MoreFragment extends Fragment {
 
     private void setOnClickListeners() {
         tvSetPreference.setOnClickListener(view -> {
-            PreferencesFragment fragment = new PreferencesFragment();
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager
-                    .beginTransaction();
-            fragmentTransaction.replace(R.id.container, fragment).commit();
+            Intent intent = new Intent(context, PreferencesActivity.class);
+            startActivity(intent);
         });
 
         tvProfile.setOnClickListener(view -> {

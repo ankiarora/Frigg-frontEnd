@@ -101,6 +101,7 @@ public class ThresholdItemsService extends IntentService implements FoodService.
         // intent to redirect to add multiple items to fridge list screen
         Intent notificationIntent = new Intent(this, FridgeToGroceryActivity.class);
         notificationIntent.putExtra("foodList", (Serializable) filtered);
+        notificationIntent.putExtra("foodListType", "FridgeToGrocery");
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
                 PendingIntent.FLAG_IMMUTABLE);
         builder.setContentIntent(contentIntent);

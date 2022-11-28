@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.aseproject.frigg.R;
 import com.aseproject.frigg.activity.NavActivity;
+import com.aseproject.frigg.activity.PreferencesActivity;
 import com.aseproject.frigg.common.AppSessionManager;
 import com.aseproject.frigg.model.UserDetails;
 import com.aseproject.frigg.service.PreferencesService;
@@ -43,9 +44,6 @@ public class PreferencesFragment extends Fragment implements PreferencesService.
 
     private int userId;
 
-    public PreferencesFragment() {
-    }
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -66,7 +64,7 @@ public class PreferencesFragment extends Fragment implements PreferencesService.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((NavActivity) context).setTitle("Preferences");
+        ((PreferencesActivity) context).setTitle("Preferences");
 
         saveButton = view.findViewById(R.id.save_btn);
         noOfNotificationsET = view.findViewById(R.id.edit_no_of_notifications);

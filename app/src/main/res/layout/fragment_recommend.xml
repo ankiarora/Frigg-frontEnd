@@ -60,14 +60,13 @@
                     android:id="@+id/llRecommendItems"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
-                        android:text="Would you wish to prepare a dish whose ingredients will soon expire?"
+                        android:text="Would you wish to prepare a dish from the items present in your fridge?"
                         android:textSize="16sp"
                         android:textStyle="italic|bold" />
 

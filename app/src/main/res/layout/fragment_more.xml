@@ -7,41 +7,100 @@
     android:orientation="vertical"
     tools:context=".fragment.MoreFragment">
 
-    <TextView
-        android:id="@+id/tvSetPreference"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Preferences"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:padding="20dp"/>
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tvAddFamilyMembers"
+        <TextView
+            android:id="@+id/tvSetPreference"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="20dp"
+            android:text="Preferences"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:src="@drawable/settings_icon" />
+    </LinearLayout>
+
+    
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Family Members"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:padding="20dp"/>
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tvProfile"
+        <TextView
+            android:id="@+id/tvAddFamilyMembers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="20dp"
+            android:text="Add Family Members"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:src="@drawable/add_icon_round" />
+    </LinearLayout>
+
+    
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Profile"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:padding="20dp"/>
+        android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/tvProfile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Profile"
+            android:textSize="18sp"
+            android:layout_weight="1"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/signout"
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:src="@drawable/person_icon" />
+    </LinearLayout>
+
+    
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign out"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:padding="20dp"/>
+        android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/signout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Sign out"
+            android:textSize="18sp"
+            android:layout_weight="1"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:src="@drawable/ic_baseline_logout" />
+    </LinearLayout>
+
+    
 </LinearLayout>
