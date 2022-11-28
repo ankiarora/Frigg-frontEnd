@@ -1,5 +1,6 @@
 package com.aseproject.frigg.activity;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -26,6 +27,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.aseproject.frigg.R;
+import com.aseproject.frigg.model.FoodItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,9 +37,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -64,10 +71,10 @@ public class CameraActivity extends FriggActivity {
         camera = findViewById(R.id.camera_button);
         gallery = findViewById(R.id.gallery_button);
 
-        clientId = "vrfABrvlgHiye9tLjThMwM4lkadRKw29o1nBkst";
-        clientSecret = "El4UDLoYV0ID1DGfUgMJ1SJWlyZV4pcJ3AL43rtFaG3x2eupUx7gEOwwmfm2mKj4d89SXyyG54ZubDBuxedeWve7u3CcVdzU1E9TzNBzADXkKak9lXt0cFJ6ouZPERLS";
+        clientId = "vrfSu30dOjCFIDtGVwaAxodZFnbZshJd3PVabZ1";
+        clientSecret = "PRkTmuvKsJN7ukG5auc2T5LY407zLikY8LzeevtYZZPehdnwwFpLbUk332yCfFumclA30Epy3JbVAb1dn36udDaarfg8wg7gAsDZu1UfclmotZhy96Oxym2l2dxXjUYS";
         username = "akshay.akshay.kumar929";
-        apiKey = "2f48389bc90dc3cd414da717fca9dcdb";
+        apiKey = "8fd0f91d7ba1a4c75039096c1f57cd0f";
         requestQueue = Volley.newRequestQueue(this);
 
         imageView = findViewById(R.id.imageView);
@@ -135,10 +142,27 @@ public class CameraActivity extends FriggActivity {
                         JSONObject item = lineItems.getJSONObject(j);
                         items.put(item.getString("description"), items.getOrDefault(item.getString("description"), 0) + 1);
                     }
+                    List<FoodItem> foodItems = new ArrayList<>();
+                    for(Map.Entry<String, Integer> item: items.entrySet()) {
+                        FoodItem foodItem = new FoodItem();
+                        foodItem.setFood_item_name(item.getKey());
+                        foodItem.setQuantity(item.getValue());
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, yyyy");
+                        Calendar c = Calendar.getInstance();
+                        c.setTime(new Date());
+                        c.add(Calendar.DATE, 7);
+                        foodItem.setExpected_expiry_date(sdf.format(c.getTime()));
+                        foodItem.setPurchase_date(sdf.format(new Date()));
+                        foodItems.add(foodItem);
+                    }
                     Toast.makeText(getApplicationContext(), ""+items, Toast.LENGTH_LONG).show();
 
-                    // inserting these items to the fridge list
-                    ////
+                    Intent intent = new Intent(CameraActivity.this, FridgeToGroceryActivity.class);
+                    intent.putExtra("foodList", (Serializable) foodItems);
+                    intent.putExtra("foodListType", "FridgeList");
+                    PendingIntent contentIntent = PendingIntent.getActivity(CameraActivity.this, 0, intent,
+                            PendingIntent.FLAG_IMMUTABLE);
+                    startActivity(intent);
                     Log.d("items", items.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -155,8 +179,8 @@ public class CameraActivity extends FriggActivity {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
-                headers.put("CLIENT-ID", "vrfABrvlgHiye9tLjThMwM4lkadRKw29o1nBkst");
-                headers.put("AUTHORIZATION", "apikey akshay.akshay.kumar929:2f48389bc90dc3cd414da717fca9dcdb");
+                headers.put("CLIENT-ID", clientId);
+                headers.put("AUTHORIZATION", "apikey " + username + ":" + apiKey);
                 headers.put("Accept", "application/json");
                 return headers;
             }

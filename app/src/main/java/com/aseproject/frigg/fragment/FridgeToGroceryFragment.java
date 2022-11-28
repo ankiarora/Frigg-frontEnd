@@ -66,19 +66,25 @@ public class FridgeToGroceryFragment extends Fragment implements FoodAdapter.Gro
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((FridgeToGroceryActivity) context).setTitle("Fridge Threshold Items");
 
         mEmptyView = view.findViewById(R.id.groceries_empty_view);
         sessionFacade = new SessionFacade();
         groceriesRecyclerView = view.findViewById(R.id.groceriesRecyclerView);
         btnSaveEditedItems = view.findViewById(R.id.btnSaveEditedItems);
         btnText = btnSaveEditedItems.findViewById(R.id.btn_text);
-        btnText.setText("Add to Grocery");
 
         Intent intent = ((FridgeToGroceryActivity) context).getIntent();
         foodItems = (List<FoodItem>) intent.getSerializableExtra("foodList");
         type = intent.getStringExtra("FridgeToGrocery");
         Toast.makeText(context, foodItems.get(0).getItemName(), Toast.LENGTH_SHORT).show();
+
+        if (type != null && type.equalsIgnoreCase(FridgeToGrocery)){
+            ((FridgeToGroceryActivity) context).setTitle("Fridge Threshold Items");
+            btnText.setText("Add to Grocery");
+        } else {
+            ((FridgeToGroceryActivity) context).setTitle("Add Fridge Items");
+            btnText.setText("Add to Fridge");
+        }
 
         for (FoodItem item : foodItems) {
             item.setChecked(true);
@@ -124,7 +130,7 @@ public class FridgeToGroceryFragment extends Fragment implements FoodAdapter.Gro
                     list.add(foodItem);
                 }
             }
-        if(type.equals(FridgeToGrocery)) {
+        if(type != null && type.equals(FridgeToGrocery)) {
             sessionFacade.setIngredients(context, SET_GROCERIES_PURPOSE, this, list);
         } else {
 
@@ -151,7 +157,9 @@ public class FridgeToGroceryFragment extends Fragment implements FoodAdapter.Gro
                         "Items were added to Fridge",
                         context.getString(R.string.ok),
                         "");
-                dialogFragment.show(((NavActivity) context).getSupportFragmentManager(), "");
+                Intent intent = new Intent(context, NavActivity.class);
+                context.startActivity(intent);
+//                dialogFragment.show(((NavActivity) context).getSupportFragmentManager(), "");
             }
         }
     }
