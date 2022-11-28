@@ -1,19 +1,20 @@
 package com.aseproject.frigg.activity;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 
 import com.aseproject.frigg.R;
-import com.aseproject.frigg.fragment.FridgeToGroceryFragment;
+import com.aseproject.frigg.fragment.DishRecipeFragment;
+import com.aseproject.frigg.fragment.PreferencesFragment;
 
-public class FridgeToGroceryActivity extends FriggActivity {
+public class PreferencesActivity extends FriggActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fridge_to_grocery);
-
-
-        FridgeToGroceryFragment fragment = new FridgeToGroceryFragment();
+        setContentView(R.layout.activity_preferences);
+        PreferencesFragment fragment = new PreferencesFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

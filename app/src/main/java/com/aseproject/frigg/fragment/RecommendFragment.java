@@ -98,11 +98,6 @@ public class RecommendFragment extends Fragment implements RecommendService.Reco
             @Override
             public boolean onQueryTextChange(String s) {
                 recommendAdapter.filterItems(s);
-//                if (s.isEmpty()) {
-//                    recommendedDishList.setVisibility(View.GONE);
-//                } else {
-//                    recommendedDishList.setVisibility(View.VISIBLE);
-//                }
                 return false;
             }
         });

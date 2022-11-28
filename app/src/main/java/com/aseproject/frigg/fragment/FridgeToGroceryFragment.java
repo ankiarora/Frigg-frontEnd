@@ -20,18 +20,21 @@ import android.widget.Toast;
 import com.aseproject.frigg.R;
 import com.aseproject.frigg.activity.FridgeToGroceryActivity;
 import com.aseproject.frigg.activity.FridgeToGroceryActivity;
+import com.aseproject.frigg.activity.NavActivity;
 import com.aseproject.frigg.adapter.FoodAdapter;
 import com.aseproject.frigg.common.AppSessionManager;
 import com.aseproject.frigg.common.CommonDialogFragment;
 import com.aseproject.frigg.common.FriggRecyclerView;
 import com.aseproject.frigg.model.FoodItem;
+import com.aseproject.frigg.service.FoodService;
 import com.aseproject.frigg.service.RecommendService;
 import com.aseproject.frigg.service.SessionFacade;
+import com.aseproject.frigg.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FridgeToGroceryFragment extends Fragment implements FoodAdapter.GroceryHolderListener, CommonDialogFragment.DialogInterface, RecommendService.RecommendPostListener {
+public class FridgeToGroceryFragment extends Fragment implements FoodAdapter.GroceryHolderListener, CommonDialogFragment.DialogInterface, RecommendService.RecommendPostListener, FoodService.FoodServicePostListener{
     private LinearLayout btnSaveEditedItems;
     private TextView btnText;
     private SessionFacade sessionFacade;
@@ -40,7 +43,12 @@ public class FridgeToGroceryFragment extends Fragment implements FoodAdapter.Gro
     private Context context;
     private List<FoodItem> foodItems;
     private static final String SET_GROCERIES_PURPOSE = "SET_GROCERIES_PURPOSE";
+    private static final String FridgeToGrocery = "FridgeToGrocery";
+    private static String ADD_FOOD_ITEM = "ADD_FOOD_ITEM";
+
     private FoodAdapter foodAdapter;
+    private String type;
+    private int count;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -69,6 +77,7 @@ public class FridgeToGroceryFragment extends Fragment implements FoodAdapter.Gro
 
         Intent intent = ((FridgeToGroceryActivity) context).getIntent();
         foodItems = (List<FoodItem>) intent.getSerializableExtra("foodList");
+        type = intent.getStringExtra("FridgeToGrocery");
         Toast.makeText(context, foodItems.get(0).getItemName(), Toast.LENGTH_SHORT).show();
 
         for (FoodItem item : foodItems) {
@@ -108,13 +117,24 @@ public class FridgeToGroceryFragment extends Fragment implements FoodAdapter.Gro
 
     private void setItems() {
         ((FridgeToGroceryActivity) context).showActivityIndicator(context.getString(R.string.saving_data));
-        List<FoodItem> list = new ArrayList<>();
-        for (FoodItem foodItem : foodItems) {
-            if (foodItem.isChecked()) {
-                list.add(foodItem);
+
+            List<FoodItem> list = new ArrayList<>();
+            for (FoodItem foodItem : foodItems) {
+                if (foodItem.isChecked()) {
+                    list.add(foodItem);
+                }
             }
+        if(type.equals(FridgeToGrocery)) {
+            sessionFacade.setIngredients(context, SET_GROCERIES_PURPOSE, this, list);
+        } else {
+
+            for (FoodItem item : foodItems) {
+                final String url = Constants.BASE_URL + "FridgeList/AddFoodItemByName/"+ AppSessionManager.getInstance().getFridgeId();
+                sessionFacade.addItem(context, item, url, ADD_FOOD_ITEM, this);
+
+            }
+
         }
-        sessionFacade.setIngredients(context, SET_GROCERIES_PURPOSE, this, list);
     }
 
 
@@ -122,6 +142,18 @@ public class FridgeToGroceryFragment extends Fragment implements FoodAdapter.Gro
     public void notifyPostSuccess(String response, String purpose) {
         ((FridgeToGroceryActivity) context).hideActivityIndicator();
         ((FridgeToGroceryActivity) context).onBackPressed();
+        if(purpose.equals(ADD_FOOD_ITEM)) {
+            count++;
+            if(count == foodItems.size()) {
+                CommonDialogFragment dialogFragment = new CommonDialogFragment(
+                        this,
+                        context.getString(R.string.item_added),
+                        "Items were added to Fridge",
+                        context.getString(R.string.ok),
+                        "");
+                dialogFragment.show(((NavActivity) context).getSupportFragmentManager(), "");
+            }
+        }
     }
 
     @Override

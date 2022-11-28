@@ -44,8 +44,11 @@ import com.aseproject.frigg.service.FoodService;
 import com.aseproject.frigg.service.SessionFacade;
 import com.aseproject.frigg.util.Constants;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -126,8 +129,14 @@ public class HomeFragment extends Fragment implements FoodService.FoodServicePos
             foodItem.setFood_item_name(etFoodItem.getText().toString());
             foodItem.setQuantity(Integer.parseInt(etFoodQuantity.getText().toString()));
             String url = "";
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, yyyy");
+            Calendar c = Calendar.getInstance();
+            c.setTime(new Date());
+            c.add(Calendar.DATE, 7);
+
             if (cbFridgeList.isChecked()) {
-                foodItem.setExpected_expiry_date(foodItem.getExpected_expiry_date());
+                foodItem.setExpected_expiry_date(sdf.format(c.getTime()));
                 foodItem.setPurchase_date(foodItem.getPurchase_date());
                 url = Constants.BASE_URL + "FridgeList/AddFoodItemByName/"+ AppSessionManager.getInstance().getFridgeId();
                 sessionFacade.addItem(context, foodItem, url, ADD_FOOD_ITEM, this);
