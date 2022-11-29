@@ -73,7 +73,7 @@ public class CameraActivity extends FriggActivity {
 
         clientId = "vrfSu30dOjCFIDtGVwaAxodZFnbZshJd3PVabZ1";
         clientSecret = "PRkTmuvKsJN7ukG5auc2T5LY407zLikY8LzeevtYZZPehdnwwFpLbUk332yCfFumclA30Epy3JbVAb1dn36udDaarfg8wg7gAsDZu1UfclmotZhy96Oxym2l2dxXjUYS";
-        username = "akshay.akshay.kumar929";
+        username = "akshay.gulia25";
         apiKey = "8fd0f91d7ba1a4c75039096c1f57cd0f";
         requestQueue = Volley.newRequestQueue(this);
 
