@@ -139,24 +139,27 @@ public class RecommendFragment extends Fragment implements RecommendService.Reco
     }
 
     private void updateRecommendUI(String[] recommendItems) {
-        if (recommendItems.length > 0) {
+        if(recommendItems.length == 0) {
+            llRecommendItems.setVisibility(View.GONE);
+        } else {
             item_1.setVisibility(View.VISIBLE);
             item_1.setText(recommendItems[0]);
             item_1.setOnClickListener(view -> onClickListener(recommendItems[0]));
-        } else if (recommendItems.length > 1) {
-            item_2.setVisibility(View.VISIBLE);
-            item_2.setText(recommendItems[1]);
-            item_2.setOnClickListener(view -> onClickListener(recommendItems[1]));
-        } else if (recommendItems.length > 2) {
-            item_3.setVisibility(View.VISIBLE);
-            item_3.setText(recommendItems[2]);
-            item_3.setOnClickListener(view -> onClickListener(recommendItems[2]));
-        } else if (recommendItems.length > 3) {
-            item_4.setVisibility(View.VISIBLE);
-            item_4.setText(recommendItems[3]);
-            item_4.setOnClickListener(view -> onClickListener(recommendItems[3]));
-        } else {
-            llRecommendItems.setVisibility(View.GONE);
+            if (recommendItems.length > 1) {
+                item_2.setVisibility(View.VISIBLE);
+                item_2.setText(recommendItems[1]);
+                item_2.setOnClickListener(view -> onClickListener(recommendItems[1]));
+            }
+            if (recommendItems.length > 2) {
+                item_3.setVisibility(View.VISIBLE);
+                item_3.setText(recommendItems[2]);
+                item_3.setOnClickListener(view -> onClickListener(recommendItems[2]));
+            }
+            if (recommendItems.length > 3) {
+                item_4.setVisibility(View.VISIBLE);
+                item_4.setText(recommendItems[3]);
+                item_4.setOnClickListener(view -> onClickListener(recommendItems[3]));
+            }
         }
     }
 
