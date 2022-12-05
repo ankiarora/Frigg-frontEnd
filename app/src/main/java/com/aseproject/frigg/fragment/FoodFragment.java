@@ -1,6 +1,5 @@
 package com.aseproject.frigg.fragment;
 
-import static androidx.core.content.ContextCompat.getSystemService;
 import static com.aseproject.frigg.activity.VoiceRecognitionActivity.RecordAudioRequestCode;
 
 import android.app.ActivityManager;
@@ -14,7 +13,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -53,6 +51,7 @@ import java.util.List;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
+//it is a reusable class that displays the list of fridge and grocery items
 public class FoodFragment extends Fragment implements FoodService.FoodServiceGetListener, FoodService.FoodServicePostListener, FoodAdapter.GroceryHolderListener, CommonDialogFragment.DialogInterface {
 
     private static final String TAG = "GroceryFragment";
@@ -123,6 +122,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         handleButtonActions();
     }
 
+    //handles all the click listeners present on a screen.
     private void handleButtonActions() {
         ivEditItems.setOnClickListener(view -> {
             if (isFridge()) {
@@ -144,6 +144,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         });
     }
 
+    //once any change is made to items in fridge or grocery, this func is called from an adapter.
     private void setItems() {
         if (isFridge()) {
             ((NavActivity) context).showActivityIndicator(context.getString(R.string.saving_data));
@@ -155,6 +156,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         }
     }
 
+    //this is the listener that is called when user is asked for a permission and he/she proved a response.
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -166,13 +168,14 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         }
     }
 
+    //called when screen is destoyed, and as soon as it destroys speechRecognozed initialized destroys
     @Override
     public void onDestroy() {
         super.onDestroy();
         speechRecognizer.destroy();
     }
 
-    // Swipe Refresh Layout
+    // when used pulls the screen, this method is called to make an api cal again.
     private void refreshItems() {
         downloadItems(getString(R.string.fetching_data));
         onRefreshItemsLoadComplete();
@@ -186,6 +189,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         groceriesRefreshLayout.setRefreshing(false);
     }
 
+    //this is to make a call to a method where an api call is made. this depends on whether call was made from grocery or fridge
     public void downloadItems(String indicatorStr) {
         ((NavActivity) context).showActivityIndicator(indicatorStr);
 
@@ -196,6 +200,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         }
     }
 
+    //method to check if current screen that user is on is fridge or grocery as it is a reusable code.
     private boolean isFridge() {
         if (type.equals(context.getString(R.string.fridge_title))) {
             return true;
@@ -204,6 +209,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         }
     }
 
+    //sets the properties of recycler view.
     private void setRecyclerView() {
         groceriesRecyclerView.setHasFixedSize(true);
         groceriesRecyclerView.setItemAnimator(null);
@@ -215,10 +221,11 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         groceriesRecyclerView.addItemDecoration(dividerItemDecoration);
 
         if (isFridge()) {
-            test();
+            swipe();
         }
     }
 
+    //it updates the ui once items are fetched. updates on fridge or grocery according where a call was made.
     private void updateUI(List<FoodItem> foodItems, boolean enableEditMode) {
         if (isFridge()) {
             fridgeItems = foodItems;
@@ -248,6 +255,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         downloadItems(context.getString(R.string.fetching_data));
     }
 
+    // once items are fetched from api, items are passed to recycler view to update the list
     @Override
     public void notifyFetchSuccess(List<FoodItem> foodItems, String purpose) {
         updateUI(foodItems, false);
@@ -259,6 +267,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         ((NavActivity) context).hideActivityIndicator();
     }
 
+    // if any changes like addition or deletion is made in an app, and save is clicked this function is called
     @Override
     public void notifyPostSuccess(String response, String purpose) {
         ((NavActivity) context).hideActivityIndicator();
@@ -284,6 +293,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         dialogFragment.show(((NavActivity) context).getSupportFragmentManager(), "");
     }
 
+    //if any changes are made in a list, this function is called to set the items
     @Override
     public void setGroceryList(List<FoodItem> foodItems) {
         if (!isFridge())
@@ -295,6 +305,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         }
     }
 
+    //a click on an item called this function to open details screen.
     @Override
     public void openDetailScreen(Object foodItem) {
         Intent intent = new Intent(context, FoodDetailActivity.class);
@@ -314,6 +325,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
         //do nothing
     }
 
+    //displays the notification if items are going to expire.
     private void startExpiryService() {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
@@ -335,6 +347,7 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
                 3*60*1000, pintent);
     }
 
+    //send the notification if items are crossing the threshold.
     private void startThresholdService() {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
@@ -357,8 +370,8 @@ public class FoodFragment extends Fragment implements FoodService.FoodServiceGet
                 3*60*1000, pintent);
     }
 
-
-    private void test() {
+    // this is swipe action applied on each item to delete the item.
+    private void swipe() {
         ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {

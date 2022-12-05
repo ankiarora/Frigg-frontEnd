@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+// adapter to show the list in grocery and fridge.
 public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.GroceryHolder> {
 
     private static final String TAG = FoodAdapter.class.getSimpleName();

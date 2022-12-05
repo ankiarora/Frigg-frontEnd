@@ -34,6 +34,7 @@ import com.aseproject.frigg.util.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
+//this class is the screen having list of food items that needs to be shifted from fridge to grocery or vice versa.
 public class FridgeToGroceryFragment extends Fragment implements FoodAdapter.GroceryHolderListener, CommonDialogFragment.DialogInterface, RecommendService.RecommendPostListener, FoodService.FoodServicePostListener{
     private LinearLayout btnSaveEditedItems;
     private TextView btnText;
@@ -94,7 +95,7 @@ public class FridgeToGroceryFragment extends Fragment implements FoodAdapter.Gro
         updateUI(foodItems, true);
     }
 
-
+    //sets the properties of recycler view
     private void setRecyclerView() {
         groceriesRecyclerView.setHasFixedSize(true);
         groceriesRecyclerView.setItemAnimator(null);
@@ -107,6 +108,7 @@ public class FridgeToGroceryFragment extends Fragment implements FoodAdapter.Gro
         groceriesRecyclerView.addItemDecoration(dividerItemDecoration);
     }
 
+    //updates the UI when items are fetched
     private void updateUI(List<FoodItem> foodItems, boolean enableEditMode) {
         foodAdapter = new FoodAdapter((FridgeToGroceryActivity) context, context.getString(R.string.recommend_me), foodItems, enableEditMode, this);
         groceriesRecyclerView.setAdapter(foodAdapter);
@@ -115,12 +117,14 @@ public class FridgeToGroceryFragment extends Fragment implements FoodAdapter.Gro
         foodAdapter.notifyDataSetChanged();
     }
 
+    //handles all the click listeners.
     private void setClickListeners() {
         btnSaveEditedItems.setOnClickListener(view -> {
             setItems();
         });
     }
 
+    //calls an api to update the items when any changes are made to that list.
     private void setItems() {
         ((FridgeToGroceryActivity) context).showActivityIndicator(context.getString(R.string.saving_data));
 
@@ -143,7 +147,7 @@ public class FridgeToGroceryFragment extends Fragment implements FoodAdapter.Gro
         }
     }
 
-
+    //once api to set item is successful, this function is called to update the user.
     @Override
     public void notifyPostSuccess(String response, String purpose) {
         ((FridgeToGroceryActivity) context).hideActivityIndicator();

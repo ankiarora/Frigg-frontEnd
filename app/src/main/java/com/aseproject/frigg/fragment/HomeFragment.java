@@ -52,6 +52,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+//launching screen once logged in. it has overall adding item to list feature through audio.
 public class HomeFragment extends Fragment implements FoodService.FoodServicePostListener, CommonDialogFragment.DialogInterface {
     private ImageView ivMicBtn;
     private Context context;
@@ -148,6 +149,7 @@ public class HomeFragment extends Fragment implements FoodService.FoodServicePos
         });
     }
 
+    //validations in all the fields when user wants to add item
     private boolean checkIfFieldsAreEmpty() {
         String itemName = etFoodItem.getText().toString();
         String quantity = etFoodQuantity.getText().toString();
@@ -157,6 +159,7 @@ public class HomeFragment extends Fragment implements FoodService.FoodServicePos
         return false;
     }
 
+    //converts users voice to text and puts in the a box
     private void setMicToText() {
         final Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -254,6 +257,7 @@ public class HomeFragment extends Fragment implements FoodService.FoodServicePos
         });
     }
 
+    // requests permission from user to speak.
     private void requestPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             ActivityCompat.requestPermissions((NavActivity) context, new String[]{Manifest.permission.RECORD_AUDIO}, RecordAudioRequestCode);
@@ -272,6 +276,7 @@ public class HomeFragment extends Fragment implements FoodService.FoodServicePos
 
     }
 
+    // if item was added to fridge or grocery or both, this function is called to let user know.
     @Override
     public void notifyPostSuccess(String response, String purpose) {
         ((NavActivity) context).hideActivityIndicator();
@@ -307,6 +312,7 @@ public class HomeFragment extends Fragment implements FoodService.FoodServicePos
 
     }
 
+    // if user enters quantity in words, this function converts it to integer so that it gets accepted by backend.
     private int convertWordToInteger(String number) {
         boolean isValidInput = true;
         long result = 0;

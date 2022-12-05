@@ -13,6 +13,7 @@ import com.aseproject.frigg.network.PostClient;
 import com.aseproject.frigg.util.Constants;
 import com.google.gson.Gson;
 
+//a service where a network call to get family members related things is made
 public class FamilyMembersService implements GetListener, PostListener {
     private static FamilyMembersService familyMembersService;
     private FamilyMemberListener listener;
@@ -28,6 +29,7 @@ public class FamilyMembersService implements GetListener, PostListener {
         return familyMembersService;
     }
 
+    //api call to get connected family members
     public void getConnectedFamilyMembers(Context context, FamilyMemberListener listener, String purpose) {
         this.context = context;
         this.listener = listener;
@@ -36,6 +38,7 @@ public class FamilyMembersService implements GetListener, PostListener {
         getClient.fetch(url, null, purpose);
     }
 
+    //api call to connect to family using code
     public void connectToFamily(Context context, String purpose, FamilyMemberPostListener listener, String body) {
         this.context = context;
         this.postListener = listener;
@@ -44,6 +47,7 @@ public class FamilyMembersService implements GetListener, PostListener {
         postClient.sendData(url, body,null, purpose);
     }
 
+    //api call to change password
     public void changePassword(Context context, String purpose, FamilyMemberPostListener listener, String body) {
         this.context = context;
         this.postListener = listener;

@@ -15,6 +15,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.HashMap;
 import java.util.Map;
+
+//if api throws error, this message returns the message so that user can see the error message
 public class VolleyErrorHandler {
     protected static final String TAG = "VolleyErrorHandler";
 

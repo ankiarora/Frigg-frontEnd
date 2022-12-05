@@ -14,7 +14,7 @@ import com.aseproject.frigg.fragment.FamilyMemberFragment;
 import com.aseproject.frigg.model.FamilyMember;
 import com.aseproject.frigg.model.FoodItem;
 
-
+// an adapter to set the list of connected family members.
 public class FamilyMembersAdapter extends RecyclerView.Adapter<FamilyMembersAdapter.FamilyMembersHolder> {
 
 
@@ -43,6 +43,7 @@ public class FamilyMembersAdapter extends RecyclerView.Adapter<FamilyMembersAdap
         return familyMembers.length;
     }
 
+    //item holder class that holds the item of a list and sets the value in that list.
     public class FamilyMembersHolder extends RecyclerView.ViewHolder {
 
         private final TextView tvMemberName;

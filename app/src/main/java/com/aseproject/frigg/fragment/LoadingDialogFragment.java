@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.aseproject.frigg.R;
 
+//a dialog box displaying loading indicator when any api call is made.
 public class LoadingDialogFragment extends DialogFragment {
 
     private static final String TAG = LoadingDialogFragment.class.getSimpleName();

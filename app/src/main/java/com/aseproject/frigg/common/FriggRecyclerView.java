@@ -5,6 +5,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+//common recycler view that is used everywhere throughout the app where ever we need to display the list..
 public class FriggRecyclerView extends RecyclerView {
 
     private View emptyView;

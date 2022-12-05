@@ -29,6 +29,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Objects;
 
+//register screen to make a new user account.
 public class RegisterFragment extends Fragment implements AuthService.AuthServicePostListener {
 
     private static final String TAG = "RegisterFragment";
@@ -80,6 +81,7 @@ public class RegisterFragment extends Fragment implements AuthService.AuthServic
         handleButtonActions();
     }
 
+    //handles all the click listeners present in a screen.
     private void handleButtonActions() {
         login.setOnClickListener(view -> {
             LoginFragment loginFragment = new LoginFragment();
@@ -99,6 +101,7 @@ public class RegisterFragment extends Fragment implements AuthService.AuthServic
         });
     }
 
+    //if registeration is successful it asks user to login with their creds
     @Override
     public void notifyPostSuccess(String response, String purpose) {
         Log.d(TAG, response);

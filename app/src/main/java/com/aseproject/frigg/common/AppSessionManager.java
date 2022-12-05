@@ -7,6 +7,7 @@ import com.aseproject.frigg.model.FoodItem;
 import java.util.ArrayList;
 import java.util.List;
 
+//singleton class having properties with their getters and setters. if somethings needs to be save, this class is used to save data.
 public class AppSessionManager {
 
     private static final String TAG = "AppSessionManager";

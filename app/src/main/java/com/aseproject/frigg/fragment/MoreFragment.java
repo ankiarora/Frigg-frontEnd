@@ -23,7 +23,7 @@ import com.aseproject.frigg.activity.NavActivity;
 import com.aseproject.frigg.activity.PreferencesActivity;
 import com.aseproject.frigg.activity.ProfileActivity;
 
-
+// screen giving the direction to open multiple screens.
 public class MoreFragment extends Fragment {
     private TextView tvSetPreference;
     private TextView tvAddFamilyMembers;
@@ -57,6 +57,7 @@ public class MoreFragment extends Fragment {
         setOnClickListeners();
     }
 
+    // handles click listeners to open different screens as requested by users.
     private void setOnClickListeners() {
         tvSetPreference.setOnClickListener(view -> {
             Intent intent = new Intent(context, PreferencesActivity.class);
