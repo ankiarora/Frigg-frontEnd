@@ -29,7 +29,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
+ * a fragment to ask from user about the count if notifications that they would like to receive every day
  */
 public class PreferencesFragment extends Fragment implements PreferencesService.PreferencesServicePostListener, PreferencesService.PreferencesServiceGetListener {
 
@@ -75,6 +75,7 @@ public class PreferencesFragment extends Fragment implements PreferencesService.
         });
     }
 
+    //default value or previously entered value by a user is fetched here.
     @Override
     public void notifyFetchSuccess(UserDetails userDetails, String purpose) {
         noOfNotificationsET.getEditText().setText(userDetails.getNo_of_notifications().toString());
@@ -85,6 +86,7 @@ public class PreferencesFragment extends Fragment implements PreferencesService.
         Log.d(TAG, "Failed to fetch no of notifications");
     }
 
+    //user enters the count and is api is successful this method is called to let user know,
     @Override
     public void notifyPostSuccess(String response, String purpose) {
         Toast.makeText(context, "Preferences updated successfully", Toast.LENGTH_LONG).show();

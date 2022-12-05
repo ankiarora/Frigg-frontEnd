@@ -26,6 +26,7 @@ import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+//this screen displays the details of food item
 public class FoodDetailFragment extends Fragment {
 
     private String type = "";
@@ -75,6 +76,7 @@ public class FoodDetailFragment extends Fragment {
             setDetails((FoodItem) foodItem);
     }
 
+    //function sets the details of food item in a fridge or grocery list like its amount, dates etc.
     private void setDetails(FoodItem foodItem) {
         tvItemName.setText(foodItem.getItemName());
         tvItemAmount.setText("Amount: " + foodItem.getQuantity());

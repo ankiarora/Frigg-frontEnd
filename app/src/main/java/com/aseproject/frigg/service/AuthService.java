@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
+//service where network calls are made
 public class AuthService implements PostListener {
 
     private static final String TAG = AuthService.class.getSimpleName();
@@ -29,6 +30,7 @@ public class AuthService implements PostListener {
     }
 
 
+    // a call is made when user clicks on login
     public void login(Context context, String purpose, AuthServicePostListener listener, UserDetails details) {
         Log.d(TAG, "inside login auth service");
         this.postListener = listener;
@@ -38,7 +40,7 @@ public class AuthService implements PostListener {
         postClient.sendData(url, new Gson().toJson(details), null, purpose);
 
     }
-
+    // a call is made when user clicks on register
     public void register(Context context, String purpose, AuthServicePostListener listener, UserDetails details) {
         Log.d(TAG, "inside register auth service");
         this.postListener = listener;
@@ -48,11 +50,13 @@ public class AuthService implements PostListener {
         postClient.sendData(url, new Gson().toJson(details), null, purpose);
     }
 
+    // a call is made when a call is successful
     @Override
     public void notifyPostSuccess(String response, String purpose) {
         postListener.notifyPostSuccess(response, purpose);
     }
 
+    // a call is made when a call is failed
     @Override
     public void notifyPostError(VolleyError error, String message, String purpose) {
         postListener.notifyPostError(message, purpose);

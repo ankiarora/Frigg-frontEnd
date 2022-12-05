@@ -30,6 +30,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
+//login screen where user is asked to enter name as password to login to app.
 public class LoginFragment extends Fragment implements AuthService.AuthServicePostListener {
 
     private static final String TAG = "LoginFragment";
@@ -52,13 +53,6 @@ public class LoginFragment extends Fragment implements AuthService.AuthServicePo
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
-    }
-
-    public static LoginFragment newInstance() {
-        LoginFragment fragment = new LoginFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -100,6 +94,7 @@ public class LoginFragment extends Fragment implements AuthService.AuthServicePo
         handleButtonActions();
     }
 
+    //handles buttons present on login screen
     private void handleButtonActions() {
         login.setOnClickListener(view -> {
             UserDetails userDetails = new UserDetails(email.getEditText().getText().toString(), password.getEditText().getText().toString());
@@ -115,6 +110,7 @@ public class LoginFragment extends Fragment implements AuthService.AuthServicePo
         });
     }
 
+    //once user logs in, api call is made and reponse comes here. values are set in shared preferences, so that user don't have to login every time.
     @Override
     public void notifyPostSuccess(String response, String purpose) {
         Log.d(TAG, response);

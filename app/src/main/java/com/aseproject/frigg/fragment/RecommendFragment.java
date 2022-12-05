@@ -33,6 +33,7 @@ import com.aseproject.frigg.util.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
+//a screen that recommends food items to a user that they can cook.
 public class RecommendFragment extends Fragment implements RecommendService.RecommendListener, RecommendAdapter.RecommendListener {
 
     private SearchView svSearchItem;
@@ -88,6 +89,7 @@ public class RecommendFragment extends Fragment implements RecommendService.Reco
         setSearchView();
     }
 
+    //search functionality to search the item that user is looking for to cook.
     private void setSearchView() {
         svSearchItem.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -108,6 +110,7 @@ public class RecommendFragment extends Fragment implements RecommendService.Reco
         });
     }
 
+    //as soon as user lands on this screen an api call is made to fetch items that user can cook
     private void downloadDishes() {
         ((NavActivity) context).showActivityIndicator(context.getString(R.string.fetching_data));
         String url = Constants.BASE_URL + "DishNameSuggestion";
@@ -117,6 +120,7 @@ public class RecommendFragment extends Fragment implements RecommendService.Reco
         sessionFacade.searchIngredients(context, PURPOSE_RECOMMEND_DISHES, this, url);
     }
 
+    //set the properties of recycler view.
     private void setRecyclerView() {
         recommendedDishList.setHasFixedSize(true);
         recommendedDishList.setItemAnimator(null);
@@ -129,6 +133,7 @@ public class RecommendFragment extends Fragment implements RecommendService.Reco
         recommendedDishList.addItemDecoration(dividerItemDecoration);
     }
 
+    //updates the ui when items are fetched
     private void updateUI(String[] dishes) {
         this.dishes = dishes;
         recommendAdapter = new RecommendAdapter(context, this.dishes, this.dishes, this);
@@ -138,6 +143,7 @@ public class RecommendFragment extends Fragment implements RecommendService.Reco
         recommendAdapter.notifyDataSetChanged();
     }
 
+    //dishes based on items in fridge is set here.
     private void updateRecommendUI(String[] recommendItems) {
         if(recommendItems.length == 0) {
             llRecommendItems.setVisibility(View.GONE);
@@ -163,6 +169,7 @@ public class RecommendFragment extends Fragment implements RecommendService.Reco
         }
     }
 
+    //fetched dishes from api comes here and is passed to update function to update the UI of screen.
     @Override
     public <T> void notifyFetchSuccess(T obj, String purpose) {
         ((NavActivity) context).hideActivityIndicator();
@@ -184,6 +191,7 @@ public class RecommendFragment extends Fragment implements RecommendService.Reco
         ((NavActivity) context).hideActivityIndicator();
     }
 
+    //when dish is clicked it open new screen having ingredients to that dish.
     @Override
     public void onClickListener(String dishName) {
         Intent intent = new Intent(context, DishRecipeActivity.class);

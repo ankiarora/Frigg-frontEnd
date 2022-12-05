@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+// this screen will tell all the ingredients required to make some specific recipe.
 public class DishRecipeFragment extends Fragment implements RecommendService.RecommendListener, FoodAdapter.GroceryHolderListener, CommonDialogFragment.DialogInterface,
         RecommendService.RecommendPostListener {
     private LinearLayout btnSaveEditedItems;
@@ -104,6 +105,7 @@ public class DishRecipeFragment extends Fragment implements RecommendService.Rec
         //do nothing
     }
 
+    //sets the adapter in a recycler view to set the list of ingredients.
     private void setRecyclerView() {
         groceriesRecyclerView.setHasFixedSize(true);
         groceriesRecyclerView.setItemAnimator(null);
@@ -116,6 +118,7 @@ public class DishRecipeFragment extends Fragment implements RecommendService.Rec
         groceriesRecyclerView.addItemDecoration(dividerItemDecoration);
     }
 
+    //list fetched from api is then passed to adapter
     private void updateUI(List<FoodItem> foodItems, boolean enableEditMode) {
         foodAdapter = new FoodAdapter((DishRecipeActivity) context, context.getString(R.string.recommend_me), foodItems, enableEditMode, this);
         groceriesRecyclerView.setAdapter(foodAdapter);
@@ -125,12 +128,14 @@ public class DishRecipeFragment extends Fragment implements RecommendService.Rec
     }
 
 
+    //makes a call to function where api call is made.
     private void searchIngredients(String itemName) {
         ((DishRecipeActivity) context).showActivityIndicator(context.getString(R.string.fetching_data));
         String url = Constants.BASE_URL + "GenerateGroceryList/" + itemName + "/"+AppSessionManager.getInstance().getFridgeId();
         sessionFacade.searchIngredients(context, PURPOSE_INGREDIENTS, this, url);
     }
 
+    //once api return response it passes it to updateUI() function so as to update the list adapter.
     @Override
     public <T> void notifyFetchSuccess(T obj, String purpose) {
         ((DishRecipeActivity) context).hideActivityIndicator();
@@ -164,6 +169,7 @@ public class DishRecipeFragment extends Fragment implements RecommendService.Rec
         }
     }
 
+    //handles all the click listeners in the screen
     private void setClickListeners() {
         btnSaveEditedItems.setOnClickListener(view -> {
             setItems();
@@ -180,6 +186,7 @@ public class DishRecipeFragment extends Fragment implements RecommendService.Rec
         });
     }
 
+    //once items in a screen are selected/unselected or updated api call is made to save items.
     private void setItems() {
         ((DishRecipeActivity) context).showActivityIndicator(context.getString(R.string.saving_data));
         List<FoodItem> list = new ArrayList<>();
@@ -192,6 +199,7 @@ public class DishRecipeFragment extends Fragment implements RecommendService.Rec
     }
 
 
+    //saved items api when successful, it reaches here and screen updates are made.
     @Override
     public void notifyPostSuccess(String response, String purpose) {
         ((DishRecipeActivity) context).hideActivityIndicator();
@@ -200,6 +208,7 @@ public class DishRecipeFragment extends Fragment implements RecommendService.Rec
         btnSaveEditedItems.setVisibility(View.GONE);
     }
 
+    //saved items api when failed, it reaches here and lets the user know.
     @Override
     public void notifyPostError(String error, String purpose) {
         ((DishRecipeActivity) context).hideActivityIndicator();

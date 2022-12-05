@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+//service where api calls are made to get or set food related data
 public class FoodService implements GetListener, PostListener {
     private static final String TAG = FoodService.class.getSimpleName();
     private FoodServiceGetListener getListener;
@@ -41,6 +42,7 @@ public class FoodService implements GetListener, PostListener {
         return foodService;
     }
 
+    //api call get groceries
     public void getGroceries(String url, Context context, String purpose, FoodServiceGetListener listener) {
         this.getListener = listener;
         this.context = context;
@@ -48,6 +50,7 @@ public class FoodService implements GetListener, PostListener {
         getClient.fetch(url, null, purpose);
     }
 
+    //api call to get fridge items
     public void getFridgeItems(String url, Context context, String purpose, FoodServiceGetListener listener) {
         this.getListener = listener;
         this.context = context;
@@ -55,6 +58,7 @@ public class FoodService implements GetListener, PostListener {
         getClient.fetch(url, null, purpose);
     }
 
+    //api call to update groceries
     public void setGroceries(Context context, String purpose, FoodServicePostListener listener, List<FoodItem> groceryItems) {
         this.postListener = listener;
         final String url = Constants.BASE_URL + "GroceryList/UpdateGroceryList/"+ AppSessionManager.getInstance().getFridgeId();
@@ -63,6 +67,7 @@ public class FoodService implements GetListener, PostListener {
         postClient.sendData(url, new Gson().toJson(groceryItems), null, purpose);
     }
 
+    //call to update fridge items
     public void setFridgeItem(Context context, String purpose, FoodServicePostListener listener, List<FoodItem> fridgeItems) {
         this.postListener = listener;
         final String url = Constants.BASE_URL + "FridgeList/UpdateFridgeList/"+ AppSessionManager.getInstance().getFridgeId();
@@ -71,6 +76,7 @@ public class FoodService implements GetListener, PostListener {
         postClient.sendData(url, new Gson().toJson(fridgeItems), null, purpose);
     }
 
+    //api call to add an item to groceries
     public void addGroceryItem(Context context, String purpose, String url, FoodServicePostListener listener, FoodItem foodItem) {
         this.context = context;
         this.postListener = listener;

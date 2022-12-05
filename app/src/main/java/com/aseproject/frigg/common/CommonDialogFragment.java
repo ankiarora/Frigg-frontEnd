@@ -14,6 +14,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.aseproject.frigg.R;
 
+// a dialog with some title and message is displayed throughout the app to give an information to user.
 public class CommonDialogFragment extends DialogFragment {
     public static String TAG = "PurchaseConfirmationDialog";
     private DialogInterface dialogInterface;

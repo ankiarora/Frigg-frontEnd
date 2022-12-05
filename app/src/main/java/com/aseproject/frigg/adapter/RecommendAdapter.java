@@ -17,6 +17,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+// an adapter to display recommended dishes in a list.
 public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.RecommendHolder> {
 
     private final Context context;
@@ -72,6 +73,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.Reco
         void onClickListener(String dishName);
     }
 
+    // a holder that holds the items and sets the value to the items
     public class RecommendHolder extends RecyclerView.ViewHolder {
 
         private final TextView foodItemName;

@@ -33,6 +33,7 @@ import com.aseproject.frigg.service.SessionFacade;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
+//screen displays elements to connect to family member by add them to users fridge or vice versa.
 public class FamilyMemberFragment extends Fragment implements FamilyMembersService.FamilyMemberListener,
         FamilyMembersService.FamilyMemberPostListener {
 
@@ -93,6 +94,7 @@ public class FamilyMemberFragment extends Fragment implements FamilyMembersServi
         setOnClickListeners();
     }
 
+    //handles all the click listeners in the screen
     private void setOnClickListeners() {
         tvSteps.setOnClickListener(view -> {
             if (llSteps.getVisibility() == View.VISIBLE)
@@ -117,6 +119,7 @@ public class FamilyMemberFragment extends Fragment implements FamilyMembersServi
         });
     }
 
+    //sets the recycler view properties
     private void setRecyclerView() {
         rvFamilyMembers.setHasFixedSize(true);
         rvFamilyMembers.setItemAnimator(null);
@@ -128,12 +131,13 @@ public class FamilyMemberFragment extends Fragment implements FamilyMembersServi
         rvFamilyMembers.addItemDecoration(dividerItemDecoration);
     }
 
-
+    //makes a call to a method which makes an api call to fetch the connected family members to the fridge.
     private void downloadFamilyMembers() {
         ((FamilyMemberActivity) context).showActivityIndicator(context.getString(R.string.fetching_data));
         sessionFacade.getConnectedFamilyMembers(context, this, PURPOSE_FAMILY_MEMBERS);
     }
 
+    //once downloaded, this function is called and all the family members are then passed to recycler view to update the list.
     @Override
     public void notifyFetchSuccess(FamilyMember[] familyMembers, String purpose) {
         ((FamilyMemberActivity) context).hideActivityIndicator();
@@ -143,6 +147,7 @@ public class FamilyMemberFragment extends Fragment implements FamilyMembersServi
         updateUi(familyMembers);
     }
 
+    //fetched family members are passed to an adapter to display the list
     private void updateUi(FamilyMember[] familyMembers) {
         FamilyMembersAdapter adapter = new FamilyMembersAdapter(context, familyMembers);
         rvFamilyMembers.setAdapter(adapter);
@@ -156,6 +161,7 @@ public class FamilyMemberFragment extends Fragment implements FamilyMembersServi
         ((FamilyMemberActivity) context).hideActivityIndicator();
     }
 
+    //when user enters the invite code, the success api call call this function which updates the user that their fridge was changed.
     @Override
     public void notifyPostSuccess(String response, String purpose) {
         ((FamilyMemberActivity) context).hideActivityIndicator();

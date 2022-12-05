@@ -20,6 +20,7 @@ import com.google.gson.JsonParseException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+//service to get recommended dishes based on items present in a fridge
 public class RecommendService implements GetListener, PostListener {
     private static final String TAG = "RecommendService";
     private static RecommendService recommendService;
@@ -38,6 +39,7 @@ public class RecommendService implements GetListener, PostListener {
         return recommendService;
     }
 
+    //api call to get ingredients of dish
     public void searchIngredients(Context context, String purpose, RecommendListener listener, String url) {
         this.context = context;
         this.listener = listener;
@@ -45,6 +47,7 @@ public class RecommendService implements GetListener, PostListener {
         getClient.fetch(url, null, purpose);
     }
 
+    //api call to add selected ingredients to groceries so that user can buy later
     public void setIngredients(Context context, String purpose, RecommendPostListener listener, List<FoodItem> list) {
         this.postListener = listener;
         final String url = Constants.BASE_URL + "GroceryList/AddGroceryList/"+ AppSessionManager.getInstance().getFridgeId();

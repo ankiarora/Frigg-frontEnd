@@ -28,6 +28,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+//handles the background service where notification comes when item is going expired
 public class ExpiryService extends IntentService implements FoodService.FoodServiceGetListener {
 
     private SessionFacade sessionFacade;
@@ -53,10 +54,12 @@ public class ExpiryService extends IntentService implements FoodService.FoodServ
 //        }
     }
 
+    // a call is made to get the list of items going to expire soon.
     private void checkItemsAboutExpire() {
         sessionFacade.getFridgeList(context, GET_FRIDGE_PURPOSE, this);
     }
 
+    // a success reponse when api call is successful.
     @Override
     public void notifyFetchSuccess(List<FoodItem> foodItems, String purpose) {
         this.items = foodItems;
@@ -138,6 +141,7 @@ public class ExpiryService extends IntentService implements FoodService.FoodServ
         }
     }
 
+    //sets the notification count
     private void addNotificationCount() throws ParseException {
         prefs = context.getSharedPreferences(getString(R.string.fridge_id), Context.MODE_PRIVATE);
         int count = prefs.getInt("notification-count", 0);

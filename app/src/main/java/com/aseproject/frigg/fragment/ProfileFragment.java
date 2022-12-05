@@ -25,6 +25,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
+//tells the user details and user have the option to change their password
 public class ProfileFragment extends Fragment implements FamilyMembersService.FamilyMemberPostListener {
     private TextView name;
     private TextView email;
@@ -65,6 +66,7 @@ public class ProfileFragment extends Fragment implements FamilyMembersService.Fa
         setOnClickListeners();
     }
 
+    // button click when user requests to change password
     private void setOnClickListeners() {
         btn_change_password.setOnClickListener(view -> {
             String oldPassword = old_password.getEditText().getText().toString();
@@ -84,12 +86,13 @@ public class ProfileFragment extends Fragment implements FamilyMembersService.Fa
             }
         });
     }
-
+    ///sets the name and email of a user loggen in.
     private void prepareView() {
         name.setText("Name: "+AppSessionManager.getInstance().getName());
         email.setText("Email: "+AppSessionManager.getInstance().getEmail());
     }
 
+    // successfull reponse when api call to change password is successful.
     @Override
     public void notifyPostSuccess(String response, String purpose) {
         ((ProfileActivity) context).hideActivityIndicator();

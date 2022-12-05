@@ -54,6 +54,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+//screen to add a new item to grocery or fridge as requested by a user.
 public class NewFoodItemFragment extends Fragment implements FoodService.FoodServicePostListener, CommonDialogFragment.DialogInterface {
 
     private String type = "";
@@ -111,6 +112,7 @@ public class NewFoodItemFragment extends Fragment implements FoodService.FoodSer
         setClickHandlers();
     }
 
+    // to check if user is on fridge screen or grocery
     private boolean isFridge() {
         if (type.equals(context.getString(R.string.fridge_title))) {
             return true;
@@ -119,6 +121,7 @@ public class NewFoodItemFragment extends Fragment implements FoodService.FoodSer
         }
     }
 
+    //prepares the basic view.
     private void prepareView() {
         if (isFridge()) {
             llFridgeItem.setVisibility(View.VISIBLE);
@@ -128,6 +131,7 @@ public class NewFoodItemFragment extends Fragment implements FoodService.FoodSer
         etFoodPurchase.setText(sdf.format(new Date()));
     }
 
+    //handles all clicks that user can make in a screen
     private void setClickHandlers() {
         ivMicBtn.setOnClickListener(view -> {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
@@ -194,6 +198,7 @@ public class NewFoodItemFragment extends Fragment implements FoodService.FoodSer
         });
     }
 
+    //validation is made to check ig field is not empty when user trys to add an item to the list.
     private boolean checkIfFieldsAreEmpty() {
         String foodItem = etFoodItem.getText().toString();
         String quantity = etFoodQuantity.getText().toString();
@@ -211,18 +216,21 @@ public class NewFoodItemFragment extends Fragment implements FoodService.FoodSer
         return false;
     }
 
+    //converts purchase date to specific format
     private void updatePurchaseLabel(Calendar calendar) {
         String myFormat = "dd MMM, yyyy";
         SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
         etFoodPurchase.setText(dateFormat.format(calendar.getTime()));
     }
 
+    //converts expiry date to specific format
     private void updateExpiryLabel(Calendar calendar) {
         String myFormat = "dd MMM, yyyy";
         SimpleDateFormat dateFormat = new SimpleDateFormat(myFormat, Locale.US);
         etFoodExpiry.setText(dateFormat.format(calendar.getTime()));
     }
 
+    //converts the command of user to text
     private void setMicToText() {
         final Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -310,7 +318,7 @@ public class NewFoodItemFragment extends Fragment implements FoodService.FoodSer
         });
     }
 
-
+    // request permission from user to speak
     private void requestPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             ActivityCompat.requestPermissions((NewFoodItemActivity) context, new String[]{Manifest.permission.RECORD_AUDIO}, RecordAudioRequestCode);
@@ -319,6 +327,7 @@ public class NewFoodItemFragment extends Fragment implements FoodService.FoodSer
         }
     }
 
+    //if item is added, response comes here.
     @Override
     public void notifyPostSuccess(String response, String purpose) {
         ((NewFoodItemActivity) context).hideActivityIndicator();
